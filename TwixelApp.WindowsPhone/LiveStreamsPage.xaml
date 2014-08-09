@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="TwixelApp.LiveStreamsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwixelApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="120"/>
+    		<RowDefinition/>
+    	</Grid.RowDefinitions>
+    	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Live Channels" VerticalAlignment="Center" Margin="50,0,0,0" FontSize="64">
+    		<TextBlock.Foreground>
+    			<SolidColorBrush Color="CornflowerBlue"/>
+    		</TextBlock.Foreground>
+    	</TextBlock>
+    	<GridView x:Name="streamsGridView" Grid.Row="1" Margin="50,0,0,0" ItemTemplate="{StaticResource StreamTemplate}" Loaded="streamsGridView_Loaded" ItemClick="streamsGridView_ItemClick" SelectionMode="None" IsItemClickEnabled="True"/>
+
+    </Grid>
+</Page>

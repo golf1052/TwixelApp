@@ -1,0 +1,85 @@
+﻿<Page
+    x:Class="TwixelApp.FinalConfirmation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwixelApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    	<Grid.ColumnDefinitions>
+    		<ColumnDefinition/>
+    		<ColumnDefinition/>
+    	</Grid.ColumnDefinitions>
+    	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+            <TextBlock TextWrapping="Wrap" Text="Permissions you have allowed:" FontSize="{StaticResource IntroMainSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="userReadBlock" TextWrapping="Wrap" Text="Allow access to user information (includes email)" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="userBlocksEditBlock" TextWrapping="Wrap" Text="Ability to ignore and unignore users" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="userBlocksReadBlock" TextWrapping="Wrap" Text="Allow access to view ignore list" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="userFollowsEditBlock" TextWrapping="Wrap" Text="Ability to follow and unfollow channels" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="channelReadBlock" TextWrapping="Wrap" Text="Allow access to channel information" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="channelEditorBlock" TextWrapping="Wrap" Text="Ability to update channel's status and game" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="channelCommercialBlock" TextWrapping="Wrap" Text="Ability to start commercials on channel" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="channelStreamBlock" TextWrapping="Wrap" Text="Ability to reset stream key" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="channelSubscriptionsBlock" TextWrapping="Wrap" Text="Ability to view subscribers" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="userSubscriptionsBlock" TextWrapping="Wrap" Text="Ability to view subscriptions" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="channelCheckSubscriptionBlock" TextWrapping="Wrap" Text="Ability to check if a user is subscribed to your channel" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock x:Name="chatLoginBlock" TextWrapping="Wrap" Text="Ability to login to chat and send messages" FontSize="{StaticResource IntroSubSize}">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
+    	</StackPanel>
+    	<WebView x:Name="twitchLoginWebView" Grid.Column="1" Margin="0" NavigationCompleted="twitchLoginWebView_NavigationCompleted"/>
+
+    </Grid>
+</Page>

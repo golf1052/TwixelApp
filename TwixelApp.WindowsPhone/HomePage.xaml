@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="TwixelApp.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwixelApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <CollectionViewSource x:Name="gamesCollection"/>
+        <DataTemplate x:Key="FeaturedFlipViewTemplate">
+            <Grid Height="378" Width="620">
+                <MediaElement HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    	<Hub x:Name="mainHub" Header="Twixel">
+    		<HubSection x:Name="featuredHub" Header="Featured">
+    			<DataTemplate>
+    				<Grid Height="590">
+    					<Grid x:Name="mainGrid" Margin="0" Width="620" HorizontalAlignment="Left" Loaded="mainGrid_Loaded">
+    						<Grid.RowDefinitions>
+    							<RowDefinition Height="Auto"/>
+    							<RowDefinition Height="Auto"/>
+    							<RowDefinition Height="Auto"/>
+    							<RowDefinition Height="Auto"/>
+    						</Grid.RowDefinitions>
+    						<Border BorderThickness="2" Grid.RowSpan="3">
+    							<Border.BorderBrush>
+    								<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+    							</Border.BorderBrush>
+    						</Border>
+    						<Grid>
+    							<Grid.ColumnDefinitions>
+    								<ColumnDefinition Width="Auto"/>
+    								<ColumnDefinition/>
+    								<ColumnDefinition Width="Auto"/>
+    							</Grid.ColumnDefinitions>
+    							<TextBlock x:Name="featuredGameTitle" HorizontalAlignment="Center" Text="" VerticalAlignment="Center" Margin="5" FontSize="18.667" Loaded="featuredGameTitle_Loaded" Grid.Column="1" TextTrimming="CharacterEllipsis"/>
+    						</Grid>
+    						<MediaElement x:Name="featuredStreamPlayer" HorizontalAlignment="Left" Height="378" VerticalAlignment="Top" Width="620" Grid.Row="1" Loaded="featuredStreamPlayer_Loaded" CurrentStateChanged="featuredStreamPlayer_CurrentStateChanged" MediaEnded="featuredStreamPlayer_MediaEnded" MediaFailed="featuredStreamPlayer_MediaFailed"/>
+    						<TextBlock x:Name="featuredGameText" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.Row="2" FontSize="13.333" Loaded="featuredGameText_Loaded"/>
+    						<StackPanel HorizontalAlignment="Center" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Row="3" Orientation="Horizontal">
+    							<AppBarButton x:Name="backStreamButton" HorizontalAlignment="Left" Label="AppBarButton" VerticalAlignment="Center" IsCompact="True" Icon="Back" Click="backStreamButton_Click" Loaded="backStreamButton_Loaded"/>
+    							<AppBarButton x:Name="streamStreamButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Icon="Video" Click="streamStreamButton_Click"/>
+    							<AppBarButton x:Name="pausePlayButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Icon="Pause" Click="pausePlayButton_Click" Loaded="pausePlayButton_Loaded"/>
+    							<AppBarButton x:Name="channelStreamButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Click="channelStreamButton_Click">
+    								<AppBarButton.Icon>
+    									<BitmapIcon UriSource="Assets/channelsAppBar.png"/>
+    								</AppBarButton.Icon>
+    							</AppBarButton>
+    							<AppBarButton x:Name="forwardStreamButton" HorizontalAlignment="Left" Label="AppBarButton" VerticalAlignment="Center" IsCompact="True" Icon="Forward" Click="forwardStreamButton_Click" Loaded="forwardStreamButton_Loaded"/>
+    						</StackPanel>
+    					</Grid>
+    				</Grid>
+    			</DataTemplate>
+    		</HubSection>
+    		<HubSection x:Name="gamesHub" Header="Top Games" HorizontalAlignment="Stretch">
+    			<DataTemplate>
+    				<Grid Margin="0">
+                        <GridView x:Name="topGamesGridView" ItemTemplate="{StaticResource GameItemTemplate}" Margin="0" RenderTransformOrigin="0.5,0.5" Loaded="topGamesGridView_Loaded" SelectionMode="None" ItemClick="topGamesGridView_ItemClick" IsItemClickEnabled="True">
+                        </GridView>
+    				</Grid>
+    			</DataTemplate>
+    		</HubSection>
+    	</Hub>
+    </Grid>
+</Page>

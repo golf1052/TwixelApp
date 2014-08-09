@@ -1,0 +1,51 @@
+﻿<SettingsFlyout
+    x:Class="TwixelApp.AccountsFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwixelApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    IconSource="Assets/SmallLogo.png"
+    Title="Accounts"
+    d:DesignWidth="346" Loaded="SettingsFlyout_Loaded">
+	<SettingsFlyout.Resources>
+		<DataTemplate x:Key="AccountListViewTemplate">
+			<Grid>
+				<StackPanel Orientation="Horizontal">
+					<Image x:Name="accountImage" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"/>
+					<TextBlock x:Name="accountName" TextWrapping="Wrap" VerticalAlignment="Center" Text="name"/>
+				</StackPanel>
+			</Grid>
+		</DataTemplate>
+	</SettingsFlyout.Resources>
+	<SettingsFlyout.HeaderBackground>
+		<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+	</SettingsFlyout.HeaderBackground>
+	<Grid Width="259">
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<ListView x:Name="accountsListView" Loaded="accountsListView_Loaded">
+			<ListView.Header>
+				<TextBlock TextWrapping="Wrap" Text="Accounts" FontSize="21.333">
+					<TextBlock.SelectionHighlightColor>
+						<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+					</TextBlock.SelectionHighlightColor>
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
+			</ListView.Header>
+		</ListView>
+		<Button x:Name="loginLogoutButton" Content="Login" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="2" Click="loginLogoutButton_Click">
+			<Button.Background>
+				<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+			</Button.Background>
+		</Button>
+
+	</Grid>
+
+    <!-- This StackPanel acts as a root panel for vertical layout of the content sections -->
+</SettingsFlyout>
