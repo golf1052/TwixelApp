@@ -18,6 +18,8 @@ using TwixelAPI;
 using TwixelAPI.Constants;
 using Windows.System;
 using TwixelApp.Constants;
+using WinRTXamlToolkit.Controls.Extensions;
+using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,6 +34,8 @@ namespace TwixelApp
         ObservableCollection<VideosGridViewBinding> videosCollection;
         List<Video> videos;
         bool pageLoaded = false;
+        bool currentlyPullingVideos = false;
+        ScrollViewer videoScrollViewer;
 
         public VideosPage()
         {
@@ -72,21 +76,40 @@ namespace TwixelApp
         {
             videos.Clear();
             videosCollection.Clear();
+            currentlyPullingVideos = true;
+            loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            weekRadioButton.IsEnabled = false;
+            monthRadioButton.IsEnabled = false;
+            allRadioButton.IsEnabled = false;
             videos = await twixel.RetrieveTopVideos(100, "", period);
             foreach (Video video in videos)
             {
                 videosCollection.Add(new VideosGridViewBinding(video));
             }
+            currentlyPullingVideos = false;
+            loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            weekRadioButton.IsEnabled = true;
+            monthRadioButton.IsEnabled = true;
+            allRadioButton.IsEnabled = true;
+        }
 
-            do
+        async void LoadMoreVideos()
+        {
+            currentlyPullingVideos = true;
+            loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            weekRadioButton.IsEnabled = false;
+            monthRadioButton.IsEnabled = false;
+            allRadioButton.IsEnabled = false;
+            videos = await twixel.RetrieveTopVideos(true);
+            foreach (Video video in videos)
             {
-                videos = await twixel.RetrieveTopVideos(true);
-                foreach (Video video in videos)
-                {
-                    videosCollection.Add(new VideosGridViewBinding(video));
-                }
+                videosCollection.Add(new VideosGridViewBinding(video));
             }
-            while (videosCollection.Count < 500);
+            currentlyPullingVideos = false;
+            loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            weekRadioButton.IsEnabled = true;
+            monthRadioButton.IsEnabled = true;
+            allRadioButton.IsEnabled = true;
         }
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
@@ -143,6 +166,22 @@ namespace TwixelApp
         private void videoGridView_Loaded(object sender, RoutedEventArgs e)
         {
             videoGridView.ItemsSource = videosCollection;
+            videoScrollViewer = videoGridView.GetFirstDescendantOfType<ScrollViewer>();
+            videoScrollViewer.ViewChanged += videoScrollViewer_ViewChanged;
+        }
+
+        void videoScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (pageLoaded)
+            {
+                if (videoScrollViewer.ScrollableWidth == videoScrollViewer.HorizontalOffset)
+                {
+                    if (!currentlyPullingVideos)
+                    {
+                        LoadMoreVideos();
+                    }
+                }
+            }
         }
     }
 }

@@ -162,7 +162,6 @@ namespace TwixelApp
             streamerObject.OnNavigatedFrom();
             Application.Current.Suspending -= Current_Suspending;
             Application.Current.Resuming -= Current_Resuming;
-            twixel.TwixelErrorEvent -= twixel_TwixelErrorEvent;
         }
 
         private void userButton_Click(object sender, RoutedEventArgs e)

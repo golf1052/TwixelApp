@@ -43,6 +43,15 @@
     		<RowDefinition Height="120"/>
     		<RowDefinition/>
     	</Grid.RowDefinitions>
+    	<StackPanel x:Name="loadingVideosStatusBar" VerticalAlignment="Top" Visibility="Collapsed">
+    		<ProgressBar x:Name="loadingProgressBar" Height="10" VerticalAlignment="Top" Margin="0" IsIndeterminate="True">
+    			<ProgressBar.Foreground>
+    				<SolidColorBrush Color="CornflowerBlue"/>
+    			</ProgressBar.Foreground>
+    		</ProgressBar>
+    		<TextBlock x:Name="loadingStatusTextBlock" TextWrapping="Wrap" Text="fetching videos" Margin="39,5,0,0"/>
+    	</StackPanel>
+
     	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="All Videos" VerticalAlignment="Center" FontSize="64" Margin="50,0,0,0">
     		<TextBlock.Foreground>
     			<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
@@ -53,7 +62,7 @@
     		<RadioButton x:Name="monthRadioButton" Content="Month" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,10,0" Checked="monthRadioButton_Checked"/>
     		<RadioButton x:Name="allRadioButton" Content="All TIme" VerticalAlignment="Stretch" Margin="0" Checked="allRadioButton_Checked"/>
     	</StackPanel>
-    	<GridView x:Name="videoGridView" Grid.Row="1" Margin="50,0,0,0" ItemTemplate="{StaticResource VideoTemplate}" ItemClick="videoGridView_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Loaded="videoGridView_Loaded"/>
+    	<GridView x:Name="videoGridView" Grid.Row="1" Margin="39,0,0,0" ItemTemplate="{StaticResource VideoTemplate}" ItemClick="videoGridView_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Loaded="videoGridView_Loaded"/>
 
     </Grid>
 </Page>
