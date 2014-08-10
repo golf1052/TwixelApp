@@ -35,6 +35,7 @@ namespace TwixelApp
         List<Video> videos;
         bool pageLoaded = false;
         bool currentlyPullingVideos = false;
+        bool endOfList = false;
         ScrollViewer videoScrollViewer;
 
         public VideosPage()
@@ -76,6 +77,7 @@ namespace TwixelApp
         {
             videos.Clear();
             videosCollection.Clear();
+            endOfList = false;
             currentlyPullingVideos = true;
             loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
             weekRadioButton.IsEnabled = false;
@@ -95,21 +97,28 @@ namespace TwixelApp
 
         async void LoadMoreVideos()
         {
-            currentlyPullingVideos = true;
-            loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            weekRadioButton.IsEnabled = false;
-            monthRadioButton.IsEnabled = false;
-            allRadioButton.IsEnabled = false;
-            videos = await twixel.RetrieveTopVideos(true);
-            foreach (Video video in videos)
+            if (!endOfList)
             {
-                videosCollection.Add(new VideosGridViewBinding(video));
+                currentlyPullingVideos = true;
+                loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                weekRadioButton.IsEnabled = false;
+                monthRadioButton.IsEnabled = false;
+                allRadioButton.IsEnabled = false;
+                videos = await twixel.RetrieveTopVideos(true);
+                if (videos.Count == 0)
+                {
+                    endOfList = true;
+                }
+                foreach (Video video in videos)
+                {
+                    videosCollection.Add(new VideosGridViewBinding(video));
+                }
+                currentlyPullingVideos = false;
+                loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                weekRadioButton.IsEnabled = true;
+                monthRadioButton.IsEnabled = true;
+                allRadioButton.IsEnabled = true;
             }
-            currentlyPullingVideos = false;
-            loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            weekRadioButton.IsEnabled = true;
-            monthRadioButton.IsEnabled = true;
-            allRadioButton.IsEnabled = true;
         }
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
