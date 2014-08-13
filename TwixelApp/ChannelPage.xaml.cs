@@ -19,6 +19,7 @@ using TwixelAPI;
 using TwixelApp.Constants;
 using Newtonsoft.Json.Linq;
 using Windows.System;
+using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,9 +34,12 @@ namespace TwixelApp
         Channel channel;
         User user;
         ObservableCollection<VideosGridViewBinding> videosCollection = new ObservableCollection<VideosGridViewBinding>();
-        ObservableCollection<FollowersGridViewBinding> followersCollection = new ObservableCollection<FollowersGridViewBinding>();
         List<Video> videos = new List<Video>();
-        List<User> followers = new List<User>();
+        bool pageLoaded = false;
+        bool currentlyPullingVideos = false;
+        bool endOfList = false;
+
+        ScrollViewer videoScrollViewer;
 
         public ChannelPage()
         {
@@ -68,6 +72,8 @@ namespace TwixelApp
                 userButton.IsEnabled = false;
             }
 
+            pageLoaded = true;
+
             displayNameBlock.Text = channel.displayName;
             channelGame.Text = channel.game;
             if (channel.primaryTeamDisplayName != null)
@@ -90,33 +96,60 @@ namespace TwixelApp
                 bannerImage.Source = image;
             }
 
-            if (videos.Count == 0)
-            {
-                videos = await twixel.RetrieveVideos(channel.name, false);
-            }
-            foreach (Video video in videos)
-            {
-                videosCollection.Add(new VideosGridViewBinding(video));
-            }
+            videos = await twixel.RetrieveVideos(channel.name, 100, false);
 
-            if (followers.Count == 0)
+            if (videos != null)
             {
-                followers = await twixel.RetrieveFollowers(user.name, 100);
+                foreach (Video video in videos)
+                {
+                    videosCollection.Add(new VideosGridViewBinding(video));
+                }
             }
-            foreach (User follower in followers)
+            else
             {
-                followersCollection.Add(new FollowersGridViewBinding(follower));
+                AppConstants.ShowError("Could not pull channel videos.\nError Code: " + twixel.ErrorString);
+            }
+        }
+
+        async void LoadMoreVideos()
+        {
+            if (!endOfList)
+            {
+                currentlyPullingVideos = true;
+                loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                videos = await twixel.RetrieveTopVideos(true);
+                if (videos.Count == 0)
+                {
+                    endOfList = true;
+                }
+                foreach (Video video in videos)
+                {
+                    videosCollection.Add(new VideosGridViewBinding(video));
+                }
+                currentlyPullingVideos = false;
+                loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
 
         private void videosGridView_Loaded(object sender, RoutedEventArgs e)
         {
             videosGridView.ItemsSource = videosCollection;
+            videoScrollViewer = videosGridView.GetFirstDescendantOfType<ScrollViewer>();
+            videoScrollViewer.ViewChanged += videoScrollViewer_ViewChanged;
         }
 
-        private void followersGridView_Loaded(object sender, RoutedEventArgs e)
+        void videoScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            followersGridView.ItemsSource = followersCollection;
+            if (pageLoaded)
+            {
+                if (videoScrollViewer.ScrollableWidth == videoScrollViewer.HorizontalOffset)
+                {
+                    if (!currentlyPullingVideos)
+                    {
+                        LoadMoreVideos();
+                    }
+                }
+            }
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)

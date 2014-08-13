@@ -411,8 +411,7 @@ namespace TwixelApp
 
         private async void AppBar_Opened(object sender, object e)
         {
-            Task task = Task.Run(async () => { qualities = await AppConstants.GetQualities(stream.channel.name); });
-            task.Wait();
+            qualities = await AppConstants.GetQualities(stream.channel.name);
 
             if (CheckOffline())
             {

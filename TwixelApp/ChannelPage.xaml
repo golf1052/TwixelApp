@@ -110,6 +110,11 @@
     		<RowDefinition Height="120"/>
     		<RowDefinition/>
     	</Grid.RowDefinitions>
+    	<StackPanel x:Name="loadingVideosStatusBar" VerticalAlignment="Top" Visibility="Collapsed">
+    		<ProgressBar x:Name="loadingProgressBar" Height="10" VerticalAlignment="Top" Margin="0" IsIndeterminate="True" Foreground="CornflowerBlue"/>
+    		<TextBlock x:Name="loadingStatusTextBlock" TextWrapping="Wrap" Text="fetching videos" Margin="39,5,0,0"/>
+    	</StackPanel>
+
     	<Grid>
     		<Grid.ColumnDefinitions>
     			<ColumnDefinition Width="Auto"/>
@@ -126,11 +131,7 @@
     		</StackPanel>
     		<StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Orientation="Horizontal" Margin="20,0,0,0">
     			<TextBlock TextWrapping="Wrap" Text="playing" FontSize="16" VerticalAlignment="Center"/>
-    			<TextBlock x:Name="channelGame" TextWrapping="Wrap" Text="League of Legends" FontSize="26.667" Margin="10,0,0,0">
-    				<TextBlock.Foreground>
-    					<SolidColorBrush Color="CornflowerBlue"/>
-    				</TextBlock.Foreground>
-    			</TextBlock>
+    			<TextBlock x:Name="channelGame" TextWrapping="Wrap" Text="League of Legends" FontSize="26.667" Margin="10,0,0,0" Foreground="CornflowerBlue"/>
     		</StackPanel>
     		<StackPanel x:Name="teamStackPanel" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Orientation="Horizontal" Margin="20,0,0,0">
     			<TextBlock TextWrapping="Wrap" Text="on" FontSize="16" VerticalAlignment="Center"/>
@@ -147,13 +148,8 @@
     			<RowDefinition Height="2*"/>
     		</Grid.RowDefinitions>
     		<Image x:Name="bannerImage" NineGrid="0" Margin="0" Source="Assets/ChannelBannerPlaceholder.png"/>
-    		<Grid Grid.Row="1">
-    			<Grid.ColumnDefinitions>
-    				<ColumnDefinition/>
-    				<ColumnDefinition/>
-    			</Grid.ColumnDefinitions>
-    			<GridView x:Name="videosGridView" ItemTemplate="{StaticResource VideoTemplate}" Loaded="videosGridView_Loaded" SelectionMode="None" IsItemClickEnabled="True" ItemClick="videosGridView_ItemClick"/>
-    			<GridView x:Name="followersGridView" Grid.Column="2" ItemTemplate="{StaticResource FollowersGridViewTemplate}" Loaded="followersGridView_Loaded" SelectionMode="None" IsItemClickEnabled="True"/>
+    		<Grid Grid.Row="1" Margin="39,0,0,0">
+    			<GridView x:Name="videosGridView" ItemTemplate="{StaticResource VideoTemplate}" Loaded="videosGridView_Loaded" SelectionMode="None" IsItemClickEnabled="True" ItemClick="videosGridView_ItemClick" Margin="0,10,0,0"/>
     		</Grid>
     	</Grid>
 
