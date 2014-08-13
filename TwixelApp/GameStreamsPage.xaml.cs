@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using TwixelApp.Constants;
+using TwixelAPI.Constants;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -59,14 +60,12 @@ namespace TwixelApp
                 }
                 else
                 {
-                    userButton.Content = "Not Logged In";
-                    userButton.IsEnabled = false;
+                    userButton.Content = "Log In";
                 }
             }
             else
             {
-                userButton.Content = "Not Logged In";
-                userButton.IsEnabled = false;
+                userButton.Content = "Log In";
             }
 
             streamsCollection = new ObservableCollection<GameStreamsGridViewBinding>();
@@ -131,7 +130,18 @@ namespace TwixelApp
 
         private void userButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(UserPage), twixel);
+            if (AppConstants.ActiveUser == null || !AppConstants.ActiveUser.authorized)
+            {
+                List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
+                List<object> param = new List<object>();
+                param.Add(twixel);
+                param.Add(scopes);
+                Frame.Navigate(typeof(UserReadScope), param);
+            }
+            else
+            {
+                Frame.Navigate(typeof(UserPage), twixel);
+            }
         }
 
         private void liveButton_Click(object sender, RoutedEventArgs e)

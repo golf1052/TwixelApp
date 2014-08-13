@@ -104,6 +104,7 @@ namespace TwixelApp
                 {
                     user = AppConstants.ActiveUser;
                     userNameBlock.Text = user.displayName;
+                    userButton.Content = AppConstants.ActiveUser.displayName;
                     BitmapImage bitmapImage = new BitmapImage(user.logo.url);
                     profileImage.Source = bitmapImage;
 

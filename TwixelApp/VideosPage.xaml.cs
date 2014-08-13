@@ -55,14 +55,12 @@ namespace TwixelApp
                 }
                 else
                 {
-                    userButton.Content = "Not Logged In";
-                    userButton.IsEnabled = false;
+                    userButton.Content = "Log In";
                 }
             }
             else
             {
-                userButton.Content = "Not Logged In";
-                userButton.IsEnabled = false;
+                userButton.Content = "Log In";
             }
 
             pageLoaded = true;
@@ -143,7 +141,18 @@ namespace TwixelApp
 
         private void userButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(UserPage), twixel);
+            if (AppConstants.ActiveUser == null || !AppConstants.ActiveUser.authorized)
+            {
+                List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
+                List<object> param = new List<object>();
+                param.Add(twixel);
+                param.Add(scopes);
+                Frame.Navigate(typeof(UserReadScope), param);
+            }
+            else
+            {
+                Frame.Navigate(typeof(UserPage), twixel);
+            }
         }
 
         private async void weekRadioButton_Checked(object sender, RoutedEventArgs e)
