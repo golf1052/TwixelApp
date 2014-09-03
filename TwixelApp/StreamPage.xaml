@@ -12,11 +12,11 @@
 				<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
 					<TextBlock TextWrapping="Wrap" FontSize="10.667" Text="{Binding Name}" FontWeight="{Binding FontWeight}"/>
 					<TextBlock HorizontalAlignment="Left" TextWrapping="WrapWholeWords" VerticalAlignment="Top" Text="{Binding Message}" Visibility="Collapsed"/>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
                         <ItemsControl ItemsSource="{Binding ChatThings}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
+                                    <StackPanel Orientation="Vertical"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>

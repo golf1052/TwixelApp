@@ -339,6 +339,11 @@ namespace TwixelApp
             Image image = new Image();
             BitmapImage bitmapImage = new BitmapImage(emote.url.url);
             image.Source = bitmapImage;
+            string[] spliturl = emote.url.urlString.Split('-');
+            string[] splitSize = spliturl[spliturl.Length - 1].Split('.');
+            string[] sizes = splitSize[0].Split('x');
+            image.Width = int.Parse(sizes[0]);
+            image.Height = int.Parse(sizes[1]);
             return image;
         }
 
