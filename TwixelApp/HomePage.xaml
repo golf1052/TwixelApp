@@ -74,7 +74,7 @@
     							</Grid.ColumnDefinitions>
     							<TextBlock x:Name="featuredGameTitle" HorizontalAlignment="Center" Text="" VerticalAlignment="Center" Margin="5" FontSize="18.667" Loaded="featuredGameTitle_Loaded" Grid.Column="1" TextTrimming="CharacterEllipsis"/>
     						</Grid>
-    						<MediaElement x:Name="featuredStreamPlayer" HorizontalAlignment="Left" Height="378" VerticalAlignment="Top" Width="620" Grid.Row="1" Loaded="featuredStreamPlayer_Loaded" CurrentStateChanged="featuredStreamPlayer_CurrentStateChanged" MediaEnded="featuredStreamPlayer_MediaEnded" MediaFailed="featuredStreamPlayer_MediaFailed"/>
+    						<MediaElement x:Name="featuredStreamPlayer" HorizontalAlignment="Left" Height="378" VerticalAlignment="Top" Width="620" Grid.Row="1" Loaded="featuredStreamPlayer_Loaded" CurrentStateChanged="featuredStreamPlayer_CurrentStateChanged" MediaEnded="featuredStreamPlayer_MediaEnded" MediaFailed="featuredStreamPlayer_MediaFailed" MediaOpened="featuredStreamPlayer_MediaOpened" BufferingProgressChanged="featuredStreamPlayer_BufferingProgressChanged" AudioCategory="BackgroundCapableMedia"/>
     						<TextBlock x:Name="featuredGameText" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.Row="2" FontSize="13.333" Loaded="featuredGameText_Loaded"/>
     						<StackPanel HorizontalAlignment="Center" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Row="3" Orientation="Horizontal">
     							<AppBarButton x:Name="backStreamButton" HorizontalAlignment="Left" Label="AppBarButton" VerticalAlignment="Center" IsCompact="True" Icon="Back" Click="backStreamButton_Click" Loaded="backStreamButton_Loaded"/>

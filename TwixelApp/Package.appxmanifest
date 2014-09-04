@@ -25,6 +25,13 @@
         <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#FFFFFF" />
         <m2:ApplicationView MinWidth="width500" />
       </m2:VisualElements>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="TwixelApp.App">
+          <BackgroundTasks>
+            <Task Type="audio" />
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>

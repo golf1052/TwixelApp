@@ -116,7 +116,7 @@
     		<ColumnDefinition/>
     		<ColumnDefinition Width="Auto"/>
     	</Grid.ColumnDefinitions>
-    	<MediaElement x:Name="streamPlayer" Margin="0" MediaEnded="streamPlayer_MediaEnded" MediaFailed="streamPlayer_MediaFailed" CurrentStateChanged="streamPlayer_CurrentStateChanged"/>
+    	<MediaElement x:Name="streamPlayer" Margin="0" MediaEnded="streamPlayer_MediaEnded" MediaFailed="streamPlayer_MediaFailed" CurrentStateChanged="streamPlayer_CurrentStateChanged" BufferingProgressChanged="streamPlayer_BufferingProgressChanged" MediaOpened="streamPlayer_MediaOpened" AudioCategory="BackgroundCapableMedia"/>
     	<Grid x:Name="bottomChatGrid" Height="0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
     	<TextBlock x:Name="streamOfflineBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="stream offline" VerticalAlignment="Center" FontSize="96" Grid.ColumnSpan="2" Visibility="Collapsed">
     		<TextBlock.Foreground>

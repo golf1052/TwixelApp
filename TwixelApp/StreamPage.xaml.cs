@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using TwixelAPI.Constants;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,8 +29,6 @@ namespace TwixelApp
         StreamerObject streamerObject;
         ChatWindow chatWindow;
         VolumeFlyout volumeFlyout;
-
-        StackPanel stackPanel;
 
         double screenWidth = 0;
         double screenHeight = 0;
@@ -56,6 +55,20 @@ namespace TwixelApp
             this.SizeChanged += StreamPage_SizeChanged;
 
             streamerObject = new StreamerObject(Dispatcher, streamPlayer);
+            streamerObject.StreamerObjectErrorEvent += streamerObject_StreamerObjectErrorEvent;
+            Unloaded += StreamPage_Unloaded;
+        }
+
+        async void streamerObject_StreamerObjectErrorEvent(object source, StreamerObjectErrorEventArgs e)
+        {
+            MessageDialog errorMessage = new MessageDialog("Uh...something went wrong...\nDetailed info: " + e.ErrorString);
+            await errorMessage.ShowAsync();
+            Frame.GoBack();
+        }
+
+        void StreamPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            streamerObject.OnUnload();
         }
 
         void StreamPage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -180,7 +193,7 @@ namespace TwixelApp
             streamGame.Text = stream.game;
             streamViewers.Text = stream.viewers.ToString();
 
-            streamerObject.OnNavigatedTo();
+            streamerObject.OnNavigatedTo(stream.channel.displayName, stream.channel.status);
 
             if ((string)((ComboBoxItem)streamQualities.SelectedItem).Content == "Source")
             {
@@ -290,31 +303,34 @@ namespace TwixelApp
                     await chatWindow.client.SendPart();
                 }
             }
+
+            streamerObject.StreamerObjectErrorEvent -= streamerObject_StreamerObjectErrorEvent;
             Application.Current.Suspending -= Current_Suspending;
             Application.Current.Resuming -= Current_Resuming;
         }
 
         private void streamPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
-            //streamerObject.mediaElement_MediaEnded(sender, e);
+            streamerObject.mediaElement_MediaEnded(sender, e);
         }
 
         private void streamPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            //streamerObject.mediaElement_MediaFailed(sender, e);
+            streamerObject.mediaElement_MediaFailed(sender, e);
         }
 
         private void streamPlayer_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
-            //streamerObject.mediaElement_CurrentStateChanged(sender, e);
+            streamerObject.mediaElement_CurrentStateChanged(sender, e);
         }
 
         void StartStream(Uri streamUrl)
         {
             Debug.WriteLine("Starting stream");
-
-            streamerObject.StartStream(streamUrl);
-
+            streamerObject.SetStreamUrl(streamUrl);
+            streamerObject.SetTrackTitle(stream.channel.displayName, stream.channel.status);
+            streamerObject.SetThumbnail(stream.channel.logo.urlString);
+            streamerObject.StartStream();
             videoPlaying = true;
         }
 
@@ -524,6 +540,16 @@ namespace TwixelApp
                 followButton.Label = "Follow";
                 ((SymbolIcon)followButton.Icon).Symbol = Symbol.Add;
             }
+        }
+
+        private void streamPlayer_BufferingProgressChanged(object sender, RoutedEventArgs e)
+        {
+            streamerObject.mediaElement_BufferingProgressChanged(sender, e);
+        }
+
+        private void streamPlayer_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            streamerObject.mediaElement_MediaOpened(sender, e);
         }
     }
 }

@@ -119,7 +119,8 @@ namespace TwixelApp.Constants
             {
                 if (quality.Key == q)
                 {
-                    streamerObject.StartStream(quality.Value);
+                    streamerObject.SetStreamUrl(quality.Value);
+                    streamerObject.StartStream();
                     startedStream = true;
                     break;
                 }
@@ -131,7 +132,8 @@ namespace TwixelApp.Constants
                 {
                     if (quality.Key == AppConstants.Quality.Chunked)
                     {
-                        streamerObject.StartStream(quality.Value);
+                        streamerObject.SetStreamUrl(quality.Value);
+                        streamerObject.StartStream();
                         startedStream = true;
                         break;
                     }
@@ -144,31 +146,36 @@ namespace TwixelApp.Constants
                 {
                     if (quality.Key == AppConstants.Quality.Source)
                     {
-                        streamerObject.StartStream(quality.Value);
+                        streamerObject.SetStreamUrl(quality.Value);
+                        streamerObject.StartStream();
                         startedStream = true;
                         break;
                     }
                     if (quality.Key == AppConstants.Quality.High)
                     {
-                        streamerObject.StartStream(quality.Value);
+                        streamerObject.SetStreamUrl(quality.Value);
+                        streamerObject.StartStream();
                         startedStream = true;
                         break;
                     }
                     else if (quality.Key == AppConstants.Quality.Medium)
                     {
-                        streamerObject.StartStream(quality.Value);
+                        streamerObject.SetStreamUrl(quality.Value);
+                        streamerObject.StartStream();
                         startedStream = true;
                         break;
                     }
                     else if (quality.Key == AppConstants.Quality.Low)
                     {
-                        streamerObject.StartStream(quality.Value);
+                        streamerObject.SetStreamUrl(quality.Value);
+                        streamerObject.StartStream();
                         startedStream = true;
                         break;
                     }
                     else if (quality.Key == AppConstants.Quality.Mobile)
                     {
-                        streamerObject.StartStream(quality.Value);
+                        streamerObject.SetStreamUrl(quality.Value);
+                        streamerObject.StartStream();
                         startedStream = true;
                         break;
                     }

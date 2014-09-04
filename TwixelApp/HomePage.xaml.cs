@@ -28,6 +28,7 @@ using Windows.UI.Core;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 using TwixelAPI.Constants;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -67,6 +68,21 @@ namespace TwixelApp
 
             Application.Current.Suspending += Current_Suspending;
             Application.Current.Resuming += Current_Resuming;
+        }
+
+        private void featuredStreamPlayer_Loaded(object sender, RoutedEventArgs e)
+        {
+            featuredStreamPlayer = (MediaElement)sender;
+            streamerObject = new StreamerObject(Dispatcher, featuredStreamPlayer);
+            streamerObject.StreamerObjectErrorEvent += streamerObject_StreamerObjectErrorEvent;
+            streamerObject.OnNavigatedTo("Twixel", "Twixel");
+            Unloaded += HomePage_Unloaded;
+        }
+
+        async void streamerObject_StreamerObjectErrorEvent(object source, StreamerObjectErrorEventArgs e)
+        {
+            MessageDialog errorMessage = new MessageDialog("Uh...something went wrong...\nDetailed info: " + e.ErrorString);
+            await errorMessage.ShowAsync();
         }
 
         void Current_Resuming(object sender, object e)
@@ -137,6 +153,9 @@ namespace TwixelApp
                     }
                     else
                     {
+                        //streamerObject.SetPlaybackStatus(Windows.Media.MediaPlaybackStatus.Playing);
+                        streamerObject.SetTrackTitle(featuredStreams[selectedStreamIndex].stream.channel.displayName, featuredDescritpionTextBlock.Text);
+                        streamerObject.SetThumbnail(featuredStreams[selectedStreamIndex].stream.channel.logo.urlString);
                         AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
                         videoPlaying = true;
                     }
@@ -159,6 +178,7 @@ namespace TwixelApp
             base.OnNavigatedFrom(e);
 
             streamerObject.OnNavigatedFrom();
+            streamerObject.StreamerObjectErrorEvent -= streamerObject_StreamerObjectErrorEvent;
             Application.Current.Suspending -= Current_Suspending;
             Application.Current.Resuming -= Current_Resuming;
         }
@@ -204,25 +224,24 @@ namespace TwixelApp
             Frame.Navigate(typeof(GameStreamsPage), parameters);
         }
 
-        private void featuredStreamPlayer_Loaded(object sender, RoutedEventArgs e)
+        void HomePage_Unloaded(object sender, RoutedEventArgs e)
         {
-            featuredStreamPlayer = (MediaElement)sender;
-            streamerObject = new StreamerObject(Dispatcher, featuredStreamPlayer);
+            streamerObject.OnUnload();
         }
 
         private void featuredStreamPlayer_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
-            //streamerObject.mediaElement_CurrentStateChanged(sender, e);
+            streamerObject.mediaElement_CurrentStateChanged(sender, e);
         }
 
         private void featuredStreamPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
-            //streamerObject.mediaElement_MediaEnded(sender, e);
+            streamerObject.mediaElement_MediaEnded(sender, e);
         }
 
         private void featuredStreamPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            //streamerObject.mediaElement_MediaFailed(sender, e);
+            streamerObject.mediaElement_MediaFailed(sender, e);
         }
 
         private async void backStreamButton_Click(object sender, RoutedEventArgs e)
@@ -251,6 +270,9 @@ namespace TwixelApp
 
             if (videoPlaying)
             {
+                streamerObject.SetTrackTitle(featuredStreams[selectedStreamIndex].stream.channel.displayName, featuredDescritpionTextBlock.Text);
+                streamerObject.SetThumbnail(featuredStreams[selectedStreamIndex].stream.channel.logo.urlString);
+                //streamerObject.SetPlaybackStatus(Windows.Media.MediaPlaybackStatus.Playing);
                 AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
             }
         }
@@ -280,6 +302,9 @@ namespace TwixelApp
 
             if (videoPlaying)
             {
+                streamerObject.SetTrackTitle(featuredStreams[selectedStreamIndex].stream.channel.displayName, featuredDescritpionTextBlock.Text);
+                streamerObject.SetThumbnail(featuredStreams[selectedStreamIndex].stream.channel.logo.urlString);
+                //streamerObject.SetPlaybackStatus(Windows.Media.MediaPlaybackStatus.Playing);
                 AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
             }
         }
@@ -400,6 +425,16 @@ namespace TwixelApp
         private void mainHub_Loaded(object sender, RoutedEventArgs e)
         {
             mainHub.Focus(FocusState.Programmatic);
+        }
+
+        private void featuredStreamPlayer_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            streamerObject.mediaElement_MediaOpened(sender, e);
+        }
+
+        private void featuredStreamPlayer_BufferingProgressChanged(object sender, RoutedEventArgs e)
+        {
+            streamerObject.mediaElement_BufferingProgressChanged(sender, e);
         }
     }
 }

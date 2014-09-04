@@ -141,7 +141,7 @@
     							<RowDefinition/>
     							<RowDefinition Height="Auto"/>
     						</Grid.RowDefinitions>
-    						<MediaElement x:Name="streamPlayer" Loaded="streamPlayer_Loaded"/>
+    						<MediaElement x:Name="streamPlayer" Loaded="streamPlayer_Loaded" AudioCategory="BackgroundCapableMedia" BufferingProgressChanged="streamPlayer_BufferingProgressChanged" CurrentStateChanged="streamPlayer_CurrentStateChanged" MediaEnded="streamPlayer_MediaEnded" MediaFailed="streamPlayer_MediaFailed" MediaOpened="streamPlayer_MediaOpened"/>
     						<Grid Grid.Row="1">
     							<Grid.ColumnDefinitions>
     								<ColumnDefinition/>
