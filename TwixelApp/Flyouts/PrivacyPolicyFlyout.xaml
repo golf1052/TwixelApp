@@ -20,17 +20,18 @@
 
         <!-- Content Section 1-->
         <StackPanel Style="{StaticResource SettingsFlyoutSectionStyle}">
-
-            <!-- Section 1 header -->
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Twixel collects the following information" />
-
-            <!-- Section 1 body -->
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Twixel stores and syncs the following information between your devices" />
             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10" TextWrapping="Wrap">
-                <TextBlock.Text>Twitch.TV access token</TextBlock.Text>
+                <TextBlock.Text>Twitch access token</TextBlock.Text>
             </TextBlock>
             <TextBlock TextWrapping="Wrap" Text="This information is used for" FontSize="14.667" FontFamily="Segoe UI" FontWeight="SemiBold"/>
-            <TextBlock TextWrapping="Wrap" Text="Retrieving user information on Twitch.TV and logging into chat" FontSize="14.667" FontFamily="Segoe UI"/>
-
+            <TextBlock TextWrapping="Wrap" Text="Retrieving user information on Twitch and logging into chat" FontSize="14.667" FontFamily="Segoe UI"/>
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Twixel does not store any other information" />
+            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10" TextWrapping="Wrap">
+                <TextBlock.Text>Twixel does not store any other Twitch information. Twixel only has access to the information that you have allowed
+                    Twixel to view when you log into the app. You can revoke these privileges from Twixel at any time by going to your
+                    user settings on Twitch.</TextBlock.Text>
+            </TextBlock>
         </StackPanel>
 
         <!-- Define more Content Sections below as necessary -->

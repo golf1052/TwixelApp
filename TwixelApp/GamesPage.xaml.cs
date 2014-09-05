@@ -67,10 +67,17 @@ namespace TwixelApp
 
                 do
                 {
-                    games = await twixel.RetrieveTopGames(true);
-                    foreach (Game game in games)
+                    try
                     {
-                        gamesCollection.Add(new GameGridViewBinding(game));
+                        games = await twixel.RetrieveTopGames(true);
+                        foreach (Game game in games)
+                        {
+                            gamesCollection.Add(new GameGridViewBinding(game));
+                        }
+                    }
+                    catch
+                    {
+                        games.Clear();
                     }
                 }
                 while (games.Count != 0);

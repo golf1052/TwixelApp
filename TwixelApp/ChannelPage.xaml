@@ -142,16 +142,15 @@
     			</TextBlock>
     		</StackPanel>
     	</Grid>
-    	<Grid Grid.Row="1">
-    		<Grid.RowDefinitions>
-    			<RowDefinition/>
-    			<RowDefinition Height="2*"/>
-    		</Grid.RowDefinitions>
-    		<Image x:Name="bannerImage" NineGrid="0" Margin="0" Source="Assets/ChannelBannerPlaceholder.png"/>
-    		<Grid Grid.Row="1" Margin="39,0,0,0">
-    			<GridView x:Name="videosGridView" ItemTemplate="{StaticResource VideoTemplate}" Loaded="videosGridView_Loaded" SelectionMode="None" IsItemClickEnabled="True" ItemClick="videosGridView_ItemClick" Margin="0,10,0,0"/>
-    		</Grid>
-    	</Grid>
-
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Image x:Name="bannerImage" NineGrid="0" Margin="0" Source="Assets/ChannelBannerPlaceholder.png"/>
+            <Grid Grid.Row="1" Margin="39,0,0,0">
+                <GridView x:Name="videosGridView" ItemTemplate="{StaticResource VideoTemplate}" Loaded="videosGridView_Loaded" SelectionMode="None" IsItemClickEnabled="True" ItemClick="videosGridView_ItemClick" Margin="0,10,0,0"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
