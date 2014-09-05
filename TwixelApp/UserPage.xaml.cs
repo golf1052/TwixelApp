@@ -85,7 +85,7 @@ namespace TwixelApp
         private void streamPlayer_Loaded(object sender, RoutedEventArgs e)
         {
             streamPlayer = sender as MediaElement;
-            streamerObject = new StreamerObject(Dispatcher, streamPlayer);
+            streamerObject = new StreamerObject(Dispatcher, streamPlayer, PlayPauseAction);
             streamerObject.StreamerObjectErrorEvent += streamerObject_StreamerObjectErrorEvent;
             streamerObject.OnNavigatedTo("Twixel", "Twixel");
             Unloaded += UserPage_Unloaded;
@@ -271,7 +271,12 @@ namespace TwixelApp
             // Do nothing
         }
 
-        private async void playPauseButton_Click(object sender, RoutedEventArgs e)
+        private void playPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            PlayPauseAction();
+        }
+
+        public async void PlayPauseAction()
         {
             if (videoPlaying)
             {

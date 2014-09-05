@@ -54,7 +54,7 @@ namespace TwixelApp
             Application.Current.Resuming += Current_Resuming;
             this.SizeChanged += StreamPage_SizeChanged;
 
-            streamerObject = new StreamerObject(Dispatcher, streamPlayer);
+            streamerObject = new StreamerObject(Dispatcher, streamPlayer, PlayPauseAction);
             streamerObject.StreamerObjectErrorEvent += streamerObject_StreamerObjectErrorEvent;
             Unloaded += StreamPage_Unloaded;
         }
@@ -348,6 +348,11 @@ namespace TwixelApp
         }
 
         private void playPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            PlayPauseAction();
+        }
+
+        public void PlayPauseAction()
         {
             if (videoPlaying)
             {

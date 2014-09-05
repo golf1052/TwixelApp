@@ -35,12 +35,15 @@ namespace TwixelApp
         Uri currentStreamUrl;
         public event StreamerObjectErrorHandler StreamerObjectErrorEvent;
 
-        public StreamerObject(CoreDispatcher Dispatcher, MediaElement mediaElement)
+        Action PlayPauseAction;
+
+        public StreamerObject(CoreDispatcher Dispatcher, MediaElement mediaElement, Action playPauseAction)
         {
             this.Dispatcher = Dispatcher;
             this.mediaElement = mediaElement;
             var userAgent = applicationInformation.CreateUserAgent();
             httpClientsParameters = new HttpClientsParameters { UserAgent = userAgent };
+            this.PlayPauseAction = playPauseAction;
             // Need to call the Unloaded event in every page this Object is used and call
             // OnUnload for the Unloaded method event.
         }
@@ -60,17 +63,6 @@ namespace TwixelApp
             var displayUpdater = systemMediaTransportControls.DisplayUpdater;
             displayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromUri(thumbnailUrl);
             displayUpdater.Update();
-        }
-
-        void UpdatePlaybackStatus(SystemMediaTransportControls systemMediaTransportControls, MediaPlaybackStatus status)
-        {
-            systemMediaTransportControls.PlaybackStatus = status;
-        }
-
-        public void SetPlaybackStatus(MediaPlaybackStatus status)
-        {
-            var smtc = SystemMediaTransportControls.GetForCurrentView();
-            UpdatePlaybackStatus(smtc, status);
         }
 
         public void SetTrackTitle(string streamName, string streamDescription)
@@ -107,15 +99,15 @@ namespace TwixelApp
         {
             if (button == SystemMediaTransportControlsButton.Play)
             {
-                StartStream();
+                PlayPauseAction.Invoke();
             }
             else if (button == SystemMediaTransportControlsButton.Pause)
             {
-                Stop();
+                PlayPauseAction.Invoke();
             }
             else if (button == SystemMediaTransportControlsButton.Stop)
             {
-                Stop();
+                PlayPauseAction.Invoke();
             }
         }
 

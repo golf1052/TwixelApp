@@ -29,6 +29,7 @@ using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 using TwixelAPI.Constants;
 using Windows.UI.Popups;
+using Windows.Media;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -73,10 +74,15 @@ namespace TwixelApp
         private void featuredStreamPlayer_Loaded(object sender, RoutedEventArgs e)
         {
             featuredStreamPlayer = (MediaElement)sender;
-            streamerObject = new StreamerObject(Dispatcher, featuredStreamPlayer);
+            streamerObject = new StreamerObject(Dispatcher, featuredStreamPlayer, PlayPauseAction);
             streamerObject.StreamerObjectErrorEvent += streamerObject_StreamerObjectErrorEvent;
             streamerObject.OnNavigatedTo("Twixel", "Twixel");
             Unloaded += HomePage_Unloaded;
+        }
+
+        void mediaControls_ButtonPressed(Windows.Media.SystemMediaTransportControls sender, Windows.Media.SystemMediaTransportControlsButtonPressedEventArgs args)
+        {
+            throw new NotImplementedException();
         }
 
         async void streamerObject_StreamerObjectErrorEvent(object source, StreamerObjectErrorEventArgs e)
@@ -329,7 +335,12 @@ namespace TwixelApp
             Frame.Navigate(typeof(StreamPage), parameters);
         }
 
-        private async void pausePlayButton_Click(object sender, RoutedEventArgs e)
+        private void pausePlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            PlayPauseAction();
+        }
+
+        public async void PlayPauseAction()
         {
             if (videoPlaying)
             {
