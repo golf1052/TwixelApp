@@ -46,9 +46,12 @@ namespace TwixelApp
         List<Game> justFetchedTopGames = new List<Game>();
 
         List<FeaturedStream> featuredStreams = new List<FeaturedStream>();
+        GridView topGamesGridView;
         AppBarButton backStreamButton;
         AppBarButton forwardStreamButton;
         AppBarButton pausePlayButton;
+        AppBarButton streamStreamButton;
+        AppBarButton channelStreamButton;
         TextBlock featuredGameTextBlock;
         Grid streamGrid;
         MediaElement featuredStreamPlayer;
@@ -62,6 +65,8 @@ namespace TwixelApp
 
         TextBlock streamOfflineTextBlock;
         bool streamIsOffline = false;
+
+        bool streamDoneLoading = false;
 
         public HomePage()
         {
@@ -207,8 +212,8 @@ namespace TwixelApp
 
         private void topGamesGridView_Loaded(object sender, RoutedEventArgs e)
         {
-            GridView gridView = (GridView)sender;
-            gridView.ItemsSource = topGamesCollection;
+            topGamesGridView = sender as GridView;
+            topGamesGridView.ItemsSource = topGamesCollection;
         }
 
         private void featuredGameTitle_Loaded(object sender, RoutedEventArgs e)
@@ -223,11 +228,14 @@ namespace TwixelApp
 
         private void topGamesGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            List<object> parameters = new List<object>();
-            parameters.Add(twixel);
-            GameGridViewBinding gameItem = ((GameGridViewBinding)e.ClickedItem);
-            parameters.Add(gameItem.game);
-            Frame.Navigate(typeof(GameStreamsPage), parameters);
+            if (streamDoneLoading)
+            {
+                List<object> parameters = new List<object>();
+                parameters.Add(twixel);
+                GameGridViewBinding gameItem = ((GameGridViewBinding)e.ClickedItem);
+                parameters.Add(gameItem.game);
+                Frame.Navigate(typeof(GameStreamsPage), parameters);
+            }
         }
 
         void HomePage_Unloaded(object sender, RoutedEventArgs e)
@@ -237,6 +245,17 @@ namespace TwixelApp
 
         private void featuredStreamPlayer_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
+            if (featuredStreamPlayer.CurrentState == MediaElementState.Playing)
+            {
+                streamDoneLoading = true;
+                backStreamButton.IsEnabled = true;
+                streamStreamButton.IsEnabled = true;
+                pausePlayButton.IsEnabled = true;
+                channelStreamButton.IsEnabled = true;
+                forwardStreamButton.IsEnabled = true;
+                topGamesGridView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+
             streamerObject.mediaElement_CurrentStateChanged(sender, e);
         }
 
@@ -374,10 +393,13 @@ namespace TwixelApp
 
         private void channelStreamButton_Click(object sender, RoutedEventArgs e)
         {
-            List<object> parameters = new List<object>();
-            parameters.Add(twixel);
-            parameters.Add(featuredStreams[selectedStreamIndex].stream.channel);
-            Frame.Navigate(typeof(ChannelPage), parameters);
+            if (streamDoneLoading)
+            {
+                List<object> parameters = new List<object>();
+                parameters.Add(twixel);
+                parameters.Add(featuredStreams[selectedStreamIndex].stream.channel);
+                Frame.Navigate(typeof(ChannelPage), parameters);
+            }
         }
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
@@ -423,10 +445,13 @@ namespace TwixelApp
 
         private void searchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            List<object> parameters = new List<object>();
-            parameters.Add(twixel);
-            parameters.Add(searchBox.QueryText);
-            Frame.Navigate(typeof(SearchStreamsPage), parameters);
+            if (streamDoneLoading)
+            {
+                List<object> parameters = new List<object>();
+                parameters.Add(twixel);
+                parameters.Add(searchBox.QueryText);
+                Frame.Navigate(typeof(SearchStreamsPage), parameters);
+            }
         }
 
         private void headerImage_Loaded(object sender, RoutedEventArgs e)
@@ -446,6 +471,16 @@ namespace TwixelApp
         private void featuredStreamPlayer_BufferingProgressChanged(object sender, RoutedEventArgs e)
         {
             streamerObject.mediaElement_BufferingProgressChanged(sender, e);
+        }
+
+        private void streamStreamButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            streamStreamButton = sender as AppBarButton;
+        }
+
+        private void channelStreamButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            channelStreamButton = sender as AppBarButton;
         }
     }
 }

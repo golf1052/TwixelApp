@@ -77,15 +77,15 @@
     						<MediaElement x:Name="featuredStreamPlayer" HorizontalAlignment="Left" Height="378" VerticalAlignment="Top" Width="620" Grid.Row="1" Loaded="featuredStreamPlayer_Loaded" CurrentStateChanged="featuredStreamPlayer_CurrentStateChanged" MediaEnded="featuredStreamPlayer_MediaEnded" MediaFailed="featuredStreamPlayer_MediaFailed" MediaOpened="featuredStreamPlayer_MediaOpened" BufferingProgressChanged="featuredStreamPlayer_BufferingProgressChanged" AudioCategory="BackgroundCapableMedia"/>
     						<TextBlock x:Name="featuredGameText" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.Row="2" FontSize="13.333" Loaded="featuredGameText_Loaded"/>
     						<StackPanel HorizontalAlignment="Center" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Row="3" Orientation="Horizontal">
-    							<AppBarButton x:Name="backStreamButton" HorizontalAlignment="Left" Label="AppBarButton" VerticalAlignment="Center" IsCompact="True" Icon="Back" Click="backStreamButton_Click" Loaded="backStreamButton_Loaded"/>
-    							<AppBarButton x:Name="streamStreamButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Icon="Video" Click="streamStreamButton_Click"/>
-    							<AppBarButton x:Name="pausePlayButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Icon="Pause" Click="pausePlayButton_Click" Loaded="pausePlayButton_Loaded"/>
-    							<AppBarButton x:Name="channelStreamButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Click="channelStreamButton_Click">
+    							<AppBarButton x:Name="backStreamButton" HorizontalAlignment="Left" Label="AppBarButton" VerticalAlignment="Center" IsCompact="True" Icon="Back" Click="backStreamButton_Click" Loaded="backStreamButton_Loaded" IsEnabled="False"/>
+    							<AppBarButton x:Name="streamStreamButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Icon="Video" Click="streamStreamButton_Click" Loaded="streamStreamButton_Loaded" IsEnabled="False"/>
+    							<AppBarButton x:Name="pausePlayButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Icon="Pause" Click="pausePlayButton_Click" Loaded="pausePlayButton_Loaded" IsEnabled="False"/>
+    							<AppBarButton x:Name="channelStreamButton" HorizontalAlignment="Stretch" Label="AppBarButton" VerticalAlignment="Stretch" IsCompact="True" Click="channelStreamButton_Click" Loaded="channelStreamButton_Loaded" IsEnabled="False">
     								<AppBarButton.Icon>
     									<BitmapIcon UriSource="Assets/channelsAppBar.png"/>
     								</AppBarButton.Icon>
     							</AppBarButton>
-    							<AppBarButton x:Name="forwardStreamButton" HorizontalAlignment="Left" Label="AppBarButton" VerticalAlignment="Center" IsCompact="True" Icon="Forward" Click="forwardStreamButton_Click" Loaded="forwardStreamButton_Loaded"/>
+    							<AppBarButton x:Name="forwardStreamButton" HorizontalAlignment="Left" Label="AppBarButton" VerticalAlignment="Center" IsCompact="True" Icon="Forward" Click="forwardStreamButton_Click" Loaded="forwardStreamButton_Loaded" IsEnabled="False"/>
     						</StackPanel>
     						<TextBlock x:Name="streamOfflineTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="stream offline" VerticalAlignment="Center" FontSize="64" Grid.Row="1" Visibility="Collapsed" Loaded="streamOfflineTextBlock_Loaded">
     							<TextBlock.Foreground>
@@ -99,7 +99,7 @@
     		<HubSection x:Name="gamesHub" Header="Top Games" HorizontalAlignment="Stretch">
     			<DataTemplate>
     				<Grid Margin="0">
-                        <GridView x:Name="topGamesGridView" ItemTemplate="{StaticResource GameItemTemplate}" Margin="0" RenderTransformOrigin="0.5,0.5" Loaded="topGamesGridView_Loaded" SelectionMode="None" ItemClick="topGamesGridView_ItemClick" IsItemClickEnabled="True">
+                        <GridView x:Name="topGamesGridView" ItemTemplate="{StaticResource GameItemTemplate}" Margin="0" RenderTransformOrigin="0.5,0.5" Loaded="topGamesGridView_Loaded" SelectionMode="None" ItemClick="topGamesGridView_ItemClick" IsItemClickEnabled="True" Visibility="Collapsed">
                         </GridView>
     				</Grid>
     			</DataTemplate>
