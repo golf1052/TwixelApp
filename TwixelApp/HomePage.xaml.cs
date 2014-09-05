@@ -248,11 +248,17 @@ namespace TwixelApp
             if (featuredStreamPlayer.CurrentState == MediaElementState.Playing)
             {
                 streamDoneLoading = true;
-                backStreamButton.IsEnabled = true;
+                if (selectedStreamIndex != 0)
+                {
+                    backStreamButton.IsEnabled = true;
+                }
                 streamStreamButton.IsEnabled = true;
                 pausePlayButton.IsEnabled = true;
                 channelStreamButton.IsEnabled = true;
-                forwardStreamButton.IsEnabled = true;
+                if (selectedStreamIndex != 4)
+                {
+                    forwardStreamButton.IsEnabled = true;
+                }
                 topGamesGridView.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
 
