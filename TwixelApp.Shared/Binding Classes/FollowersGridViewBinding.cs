@@ -11,6 +11,7 @@ namespace TwixelApp
     {
         public Uri ProfileImage { get; set; }
         public string Name { get; set; }
+        public Channel Channel { get; set; }
 
         public FollowersGridViewBinding(string profileImage, string name)
         {

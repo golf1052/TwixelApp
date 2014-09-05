@@ -329,7 +329,10 @@ namespace TwixelApp
             Debug.WriteLine("Starting stream");
             streamerObject.SetStreamUrl(streamUrl);
             streamerObject.SetTrackTitle(stream.channel.displayName, stream.channel.status);
-            streamerObject.SetThumbnail(stream.channel.logo.urlString);
+            if (stream.channel.logo != null)
+            {
+                streamerObject.SetThumbnail(stream.channel.logo.urlString);
+            }
             streamerObject.StartStream();
             videoPlaying = true;
         }

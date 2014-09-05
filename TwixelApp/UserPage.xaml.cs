@@ -67,16 +67,34 @@ namespace TwixelApp
         bool loadedVolumeSlider = false;
 
         GridView followingGridView;
-        ObservableCollection<GameStreamsGridViewBinding> followedLiveStreams;
+        ObservableCollection<GameStreamsGridViewBinding> followedLiveStreamsCollection;
         List<TwixelAPI.Stream> streamsFollowed;
+
+        ListView followedProfilesListView;
         List<Channel> channelsFollowed;
+        ObservableCollection<FollowersGridViewBinding> followedProfilesCollection;
+        ListView blockedUsersListView;
+        List<User> blockedUsers;
+        ObservableCollection<FollowersGridViewBinding> blockedUsersCollection;
+        ListView channelEditorsListView;
+        List<User> channelEditors;
+        ObservableCollection<FollowersGridViewBinding> channelEditorsCollection;
+        TextBox streamKeyTextBox;
+        Button resetKeyButton;
+        Button showHideKeyButton;
 
         public UserPage()
         {
             this.InitializeComponent();
-            followedLiveStreams = new ObservableCollection<GameStreamsGridViewBinding>();
+            followedLiveStreamsCollection = new ObservableCollection<GameStreamsGridViewBinding>();
             streamsFollowed = new List<TwixelAPI.Stream>();
             channelsFollowed = new List<Channel>();
+            blockedUsers = new List<User>();
+            channelEditors = new List<User>();
+
+            followedProfilesCollection = new ObservableCollection<FollowersGridViewBinding>();
+            blockedUsersCollection = new ObservableCollection<FollowersGridViewBinding>();
+            channelEditorsCollection = new ObservableCollection<FollowersGridViewBinding>();
 
             Application.Current.Suspending += Current_Suspending;
             Application.Current.Resuming += Current_Resuming;
@@ -152,13 +170,36 @@ namespace TwixelApp
             ElementsLoaded();
 
             streamsFollowed = await user.RetrieveOnlineFollowedStreams();
-
             foreach (TwixelAPI.Stream stream in streamsFollowed)
             {
-                followedLiveStreams.Add(new GameStreamsGridViewBinding(stream));
+                followedLiveStreamsCollection.Add(new GameStreamsGridViewBinding(stream));
             }
 
-            channelsFollowed = await user.RetrieveFollowing(false);
+            channelsFollowed = await user.RetrieveFollowing(100);
+            foreach (Channel followedChannel in channelsFollowed)
+            {
+                if (followedChannel.logo != null)
+                {
+                    followedProfilesCollection.Add(new FollowersGridViewBinding(followedChannel.logo.urlString, followedChannel.displayName));
+                }
+                else
+                {
+                    followedProfilesCollection.Add(new FollowersGridViewBinding(null, followedChannel.displayName));
+                }
+                followedProfilesCollection[followedProfilesCollection.Count - 1].Channel = followedChannel;
+            }
+
+            blockedUsers = await user.RetrieveBlockedUsers();
+            foreach (User blockedUser in blockedUsers)
+            {
+                blockedUsersCollection.Add(new FollowersGridViewBinding(blockedUser));
+            }
+
+            channelEditors = await user.RetrieveChannelEditors();
+            foreach (User channelEditor in channelEditors)
+            {
+                channelEditorsCollection.Add(new FollowersGridViewBinding(channelEditor));
+            }
         }
 
         async void ElementsLoaded()
@@ -402,7 +443,7 @@ namespace TwixelApp
         private void followingGridView_Loaded(object sender, RoutedEventArgs e)
         {
             followingGridView = sender as GridView;
-            followingGridView.ItemsSource = followedLiveStreams;
+            followingGridView.ItemsSource = followedLiveStreamsCollection;
         }
 
         private async void followingGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -440,6 +481,71 @@ namespace TwixelApp
         private void streamPlayer_MediaOpened(object sender, RoutedEventArgs e)
         {
             streamerObject.mediaElement_MediaOpened(sender, e);
+        }
+
+        private void followedProfilesListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            followedProfilesListView = sender as ListView;
+            followedProfilesListView.ItemsSource = followedProfilesCollection;
+        }
+
+        private void followedProfilesListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            FollowersGridViewBinding profileItem = (FollowersGridViewBinding)e.ClickedItem;
+
+            List<object> parameters = new List<object>();
+            parameters.Add(twixel);
+            parameters.Add(profileItem.Channel);
+            Frame.Navigate(typeof(ChannelPage), parameters);
+        }
+
+        private void blockedUsersListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            blockedUsersListView = sender as ListView;
+            blockedUsersListView.ItemsSource = blockedUsersCollection;
+        }
+
+        private void channelEditorsListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            channelEditorsListView = sender as ListView;
+            channelEditorsListView.ItemsSource = channelEditorsCollection;
+        }
+
+        private void streamKeyTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            streamKeyTextBox = sender as TextBox;
+            streamKeyTextBox.Text = user.streamKey;
+        }
+
+        private void resetKeyButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            resetKeyButton = sender as Button;
+        }
+
+        private async void resetKeyButton_Click(object sender, RoutedEventArgs e)
+        {
+            resetKeyButton.IsEnabled = false;
+            streamKeyTextBox.Text = await user.ResetStreamKey();
+            resetKeyButton.IsEnabled = true;
+        }
+
+        private void showHideKeyButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            showHideKeyButton = sender as Button;
+        }
+
+        private void showHideKeyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (streamKeyTextBox.Visibility == Windows.UI.Xaml.Visibility.Collapsed)
+            {
+                streamKeyTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                showHideKeyButton.Content = "Hide Key";
+            }
+            else
+            {
+                streamKeyTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                showHideKeyButton.Content = "Show Key";
+            }
         }
     }
 }

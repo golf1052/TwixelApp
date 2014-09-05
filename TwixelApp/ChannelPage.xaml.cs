@@ -74,7 +74,10 @@ namespace TwixelApp
             pageLoaded = true;
 
             displayNameBlock.Text = channel.displayName;
-            channelGame.Text = channel.game;
+            if (channel.game != null)
+            {
+                channelGame.Text = channel.game;
+            }
             if (channel.primaryTeamDisplayName != null)
             {
                 channelTeam.Text = channel.primaryTeamDisplayName;
@@ -160,7 +163,17 @@ namespace TwixelApp
         {
             List<object> parameters = new List<object>();
             parameters.Add(twixel);
-            TwixelAPI.Stream stream = await twixel.RetrieveStream(channel.name);
+            TwixelAPI.Stream stream;
+            try
+            {
+                stream = await twixel.RetrieveStream(channel.name);
+            }
+            catch
+            {
+                streamButton.IsEnabled = false;
+                streamButton.Label = "Stream Offline";
+                return;
+            }
             parameters.Add(stream);
             Dictionary<AppConstants.Quality, Uri> qualities = await AppConstants.GetQualities(channel.name);
             parameters.Add(qualities);

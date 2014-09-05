@@ -69,7 +69,7 @@
                 	</TextBlock>
     			</StackPanel>
     		</Hub.Header>
-    		<HubSection>
+    		<HubSection x:Name="mainSection">
     			<DataTemplate>
     				<Grid Height="503" Width="909">
     					<Grid.ColumnDefinitions>
@@ -200,10 +200,56 @@
     				</Grid>
     			</DataTemplate>
     		</HubSection>
-    		<HubSection Header="Followed Streams Online">
+    		<HubSection x:Name="followedStreamsOnlineSection" Header="Followed Streams Online">
     			<DataTemplate>
     				<Grid>
     					<GridView x:Name="followingGridView" HorizontalAlignment="Left" VerticalAlignment="Top" ItemTemplate="{StaticResource StreamTemplate}" Width="700" Loaded="followingGridView_Loaded" SelectionMode="None" IsItemClickEnabled="True" ItemClick="followingGridView_ItemClick"/>
+    				</Grid>
+    			</DataTemplate>
+    		</HubSection>
+    		<HubSection x:Name="followedProfilesSection" Header="Followed Profiles">
+    			<DataTemplate>
+    				<Grid>
+    					<ListView x:Name="followedProfilesListView" VerticalAlignment="Top" ItemTemplate="{StaticResource FollowersGridViewTemplate}" Width="300" SelectionMode="None" IsItemClickEnabled="True" Loaded="followedProfilesListView_Loaded" ItemClick="followedProfilesListView_ItemClick"/>
+    				</Grid>
+    			</DataTemplate>
+    		</HubSection>
+    		<HubSection x:Name="blockedUsersSection" Header="Blocked Users">
+    			<DataTemplate>
+    				<Grid>
+                        <ListView x:Name="blockedUsersListView" VerticalAlignment="Top" Width="300" ItemTemplate="{StaticResource FollowersGridViewTemplate}" SelectionMode="None" Loaded="blockedUsersListView_Loaded"/>
+    				</Grid>
+    			</DataTemplate>
+    		</HubSection>
+    		<HubSection x:Name="channelEditorsSection" Header="Channel Editors">
+    			<DataTemplate>
+    				<Grid>
+                        <ListView x:Name="channelEditorsListView" VerticalAlignment="Top" Width="300" ItemTemplate="{StaticResource FollowersGridViewTemplate}" SelectionMode="None" Loaded="channelEditorsListView_Loaded"/>
+    				</Grid>
+    			</DataTemplate>
+    		</HubSection>
+    		<HubSection x:Name="streamKeySection" Header="Stream Key">
+    			<DataTemplate>
+    				<Grid Width="400">
+    					<StackPanel VerticalAlignment="Top">
+    						<TextBox x:Name="streamKeyTextBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="live_12345678_abcdefghijklmnopqrstuvwxyz1234" VerticalAlignment="Top" IsReadOnly="True" Margin="0" Visibility="Collapsed" Loaded="streamKeyTextBox_Loaded"/>
+    						<Grid>
+    							<Grid.ColumnDefinitions>
+    								<ColumnDefinition/>
+    								<ColumnDefinition/>
+    							</Grid.ColumnDefinitions>
+    							<Button x:Name="resetKeyButton" Content="Reset Key" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Loaded="resetKeyButton_Loaded" Click="resetKeyButton_Click">
+    								<Button.Background>
+    									<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+    								</Button.Background>
+    							</Button>
+    							<Button x:Name="showHideKeyButton" Content="Show Key" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="1" Loaded="showHideKeyButton_Loaded" Click="showHideKeyButton_Click">
+    								<Button.Background>
+    									<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+    								</Button.Background>
+    							</Button>
+    						</Grid>
+    					</StackPanel>
     				</Grid>
     			</DataTemplate>
     		</HubSection>

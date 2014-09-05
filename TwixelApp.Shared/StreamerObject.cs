@@ -115,6 +115,19 @@ namespace TwixelApp
         {
             var state = null == mediaElement ? MediaElementState.Closed : mediaElement.CurrentState;
 
+            if (mediaElement.CurrentState == MediaElementState.Buffering)
+            {
+                Debug.WriteLine("---------- THE CURRENT MEDIA STATE IS BUFFERING -----------");
+            }
+            else if (mediaElement.CurrentState == MediaElementState.Opening)
+            {
+                Debug.WriteLine("---------- THE CURRENT MEDIA STATE IS OPENING -----------");
+            }
+            else if (mediaElement.CurrentState == MediaElementState.Playing)
+            {
+                Debug.WriteLine("---------- THE CURRENT MEDIA STATE IS PLAYING -----------");
+            }
+
             if (null != mediaStreamFascade)
             {
                 var managerState = mediaStreamFascade.State;

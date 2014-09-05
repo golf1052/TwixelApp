@@ -121,6 +121,14 @@
 				<TextBlock x:Name="videoTitle" Text="{Binding Title}" VerticalAlignment="Top" Grid.Row="1" Height="25" Margin="0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Padding="5" FontSize="10.667"/>
 			</Grid>
 		</DataTemplate>
+		<DataTemplate x:Key="FollowersGridViewTemplate">
+			<Grid>
+				<StackPanel Orientation="Horizontal">
+					<Image x:Name="followerImage" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Source="{Binding ProfileImage}"/>
+					<TextBlock x:Name="followerName" Text="{Binding Name}" VerticalAlignment="Center" Padding="5,0,0,0" FontSize="21.333" HorizontalAlignment="Left"/>
+				</StackPanel>
+			</Grid>
+		</DataTemplate>
 	</Application.Resources>
 
 </Application>
