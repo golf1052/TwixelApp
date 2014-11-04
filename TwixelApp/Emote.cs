@@ -18,7 +18,15 @@ namespace TwixelApp
             string description)
         {
             this.name = name;
-            this.url = new WebUrl(url);
+            if (url.StartsWith("http:"))
+            {
+                this.url = new WebUrl(url);
+            }
+            else
+            {
+                url = "http:" + url;
+                this.url = new WebUrl(url);
+            }
             this.description = description;
         }
     }

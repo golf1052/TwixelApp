@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="24796GStudios.Twixel" Publisher="CN=0BE05EAB-E1F1-4BF9-98E4-3A633884B5A7" Version="1.0.0.1" />
+  <Identity Name="24796GStudios.Twixel" Publisher="CN=0BE05EAB-E1F1-4BF9-98E4-3A633884B5A7" Version="1.0.0.2" />
   <Properties>
     <DisplayName>Twixel</DisplayName>
     <PublisherDisplayName>golf1052</PublisherDisplayName>
