@@ -65,7 +65,7 @@ namespace TwixelApp.Constants
             string secondResponse;
             do
             {
-                secondResponse = await GetWebData(new Uri("http://usher.twitch.tv/select/" + channel + ".json?allow_source=true&nauthsig=" + sig + "&nauth=" + token + "&type=any"));
+                secondResponse = await GetWebData(new Uri("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?token=" + token + "&sig=" + sig + "&allow_source=true"));
             }
             while (secondResponse == "Unknown status code");
 
