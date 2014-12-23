@@ -9,6 +9,7 @@ using Windows.UI.ApplicationSettings;
 #endif
 using TwixelAPI;
 using Windows.UI.ApplicationSettings;
+using TwixelApp.Constants;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -77,6 +78,7 @@ namespace TwixelApp
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
+            AppConstants.twixel = twixel;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

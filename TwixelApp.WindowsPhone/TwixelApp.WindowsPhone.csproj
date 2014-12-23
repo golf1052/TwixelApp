@@ -17,6 +17,7 @@
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>fad3d166</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -82,33 +83,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ChannelPage.xaml.cs">
-      <DependentUpon>ChannelPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FinalConfirmation.xaml.cs">
-      <DependentUpon>FinalConfirmation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FirstLaunchInfo.xaml.cs">
-      <DependentUpon>FirstLaunchInfo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GamesPage.xaml.cs">
-      <DependentUpon>GamesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GameStreamsPage.xaml.cs">
-      <DependentUpon>GameStreamsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GlobalPage.xaml.cs">
-      <DependentUpon>GlobalPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GlobalPageWP.xaml.cs">
-      <DependentUpon>GlobalPageWP.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LiveStreamsPage.xaml.cs">
-      <DependentUpon>LiveStreamsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scope Pages\ChannelCheckSubscriptionScope.xaml.cs">
       <DependentUpon>ChannelCheckSubscriptionScope.xaml</DependentUpon>
@@ -146,15 +120,6 @@
     <Compile Include="Scope Pages\UserSubscriptionsScope.xaml.cs">
       <DependentUpon>UserSubscriptionsScope.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StreamPage.xaml.cs">
-      <DependentUpon>StreamPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserPage.xaml.cs">
-      <DependentUpon>UserPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VideosPage.xaml.cs">
-      <DependentUpon>VideosPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -170,42 +135,6 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ChannelPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FinalConfirmation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FirstLaunchInfo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GamesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GameStreamsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GlobalPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GlobalPageWP.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HomePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="LiveStreamsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Scope Pages\ChannelCheckSubscriptionScope.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -254,49 +183,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="StreamPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="VideosPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.3.1\lib\portable-win+net40+sl50+wp8\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.3.5.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SM.Media, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a8a96d0f02112ebc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\phonesm-1.2.2-source\Source\Libraries\SM.Media\bin\Debug\SM.Media.dll</HintPath>
+    <Reference Include="SM.Media">
+      <HintPath>..\phonesm-1b3cb21dcd53fbbc118ed924204f259c44167cea\Source\Libraries\SM.Media\bin\Release\SM.Media.dll</HintPath>
     </Reference>
-    <Reference Include="SM.Media.Builder, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a8a96d0f02112ebc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\phonesm-1.2.2-source\Source\Libraries\SM.Media.Builder\bin\Debug\SM.Media.Builder.dll</HintPath>
+    <Reference Include="SM.Media.Builder">
+      <HintPath>..\phonesm-1b3cb21dcd53fbbc118ed924204f259c44167cea\Source\Libraries\SM.Media.Builder\bin\Release\SM.Media.Builder.dll</HintPath>
     </Reference>
-    <Reference Include="SM.Media.Platform.Win81">
-      <HintPath>..\..\phonesm-1.2.2-source\Source\Libraries\SM.Media.Platform.Win81\bin\Debug\SM.Media.Platform.Win81.dll</HintPath>
+    <Reference Include="SM.Media.Platform.WinRT">
+      <HintPath>..\phonesm-1b3cb21dcd53fbbc118ed924204f259c44167cea\Source\bin\Release\SM.Media.Platform.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="SM.TsParser, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a8a96d0f02112ebc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\phonesm-1.2.2-source\Source\Libraries\SM.TsParser\bin\Debug\SM.TsParser.dll</HintPath>
+    <Reference Include="SM.TsParser">
+      <HintPath>..\phonesm-1b3cb21dcd53fbbc118ed924204f259c44167cea\Source\Libraries\SM.TsParser\bin\Release\SM.TsParser.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.20\lib\wpa81\System.Net.Http.Extensions.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\wpa81\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="WinRTXamlToolkit">
-      <HintPath>..\packages\WinRTXamlToolkit.1.5.4.3\lib\netcore451\WinRTXamlToolkit.dll</HintPath>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\wpa81\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -319,12 +234,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -12,6 +12,7 @@ namespace TwixelApp.Constants
 {
     public static class AppConstants
     {
+        public static Twixel twixel;
         public static User ActiveUser { get; set; }
         public static List<Emote> emotes = new List<Emote>();
         public static List<SubscriberEmote> subscriberEmotes = new List<SubscriberEmote>();

@@ -9,8 +9,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using SM.Media;
 using SM.Media.Utility;
-using SM.Media.Web;
-using SM.Media.Web.HttpClientReader;
 using Windows.Media;
 using System.Diagnostics;
 using System.Threading;
@@ -28,7 +26,6 @@ namespace TwixelApp
     public class StreamerObject
     {
         static readonly IApplicationInformation applicationInformation = ApplicationInformationFactory.DefaultTask.Result;
-        readonly IHttpClientsParameters httpClientsParameters;
         IMediaStreamFacade mediaStreamFascade;
         MediaElement mediaElement;
         CoreDispatcher Dispatcher;
@@ -41,8 +38,6 @@ namespace TwixelApp
         {
             this.Dispatcher = Dispatcher;
             this.mediaElement = mediaElement;
-            var userAgent = applicationInformation.CreateUserAgent();
-            httpClientsParameters = new HttpClientsParameters { UserAgent = userAgent };
             this.PlayPauseAction = playPauseAction;
             // Need to call the Unloaded event in every page this Object is used and call
             // OnUnload for the Unloaded method event.
@@ -228,7 +223,6 @@ namespace TwixelApp
             }
 
             mediaStreamFascade = MediaStreamFacadeSettings.Parameters.Create();
-            mediaStreamFascade.SetParameter(httpClientsParameters);
             mediaStreamFascade.StateChange += TsMediaManagerOnStateChange;
         }
 
