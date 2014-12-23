@@ -8,7 +8,6 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.ApplicationSettings;
 #endif
 using TwixelAPI;
-using Windows.UI.ApplicationSettings;
 using TwixelApp.Constants;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
@@ -32,6 +31,7 @@ namespace TwixelApp
             this.Suspending += OnSuspending;
         }
 
+#if WINDOWS_APP
         protected override void OnWindowCreated(WindowCreatedEventArgs args)
         {
             SettingsPane.GetForCurrentView().CommandsRequested += App_CommandsRequested;
@@ -61,6 +61,7 @@ namespace TwixelApp
             PrivacyPolicyFlyout privacyPolicyFlyout = new PrivacyPolicyFlyout();
             privacyPolicyFlyout.Show();
         }
+#endif
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
