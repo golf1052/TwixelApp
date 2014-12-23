@@ -1,27 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Diagnostics;
 using TwixelAPI;
 using TwixelApp.Constants;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,7 +19,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class UserPage : Page
     {
-        Twixel twixel;
         User user;
         Channel channel;
         TwixelAPI.Stream stream;
@@ -137,8 +123,6 @@ namespace TwixelApp
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            twixel = (Twixel)e.Parameter;
-
             if (AppConstants.ActiveUser != null)
             {
                 if (AppConstants.ActiveUser.authorized)
@@ -223,7 +207,7 @@ namespace TwixelApp
                 justLaunchedPage == false)
             {
                 loadedMainHubSection = true;
-                chatWindow = new ChatWindow(twixel, Dispatcher, channel.name, chatGrid, chatView, chatBox, chatSendButton);
+                chatWindow = new ChatWindow(Dispatcher, channel.name, chatGrid, chatView, chatBox, chatSendButton);
                 await chatWindow.LoadChatWindow();
             }
         }
@@ -256,7 +240,7 @@ namespace TwixelApp
             }
 
             AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
-            stream = await twixel.RetrieveStream(channel.name);
+            stream = await AppConstants.twixel.RetrieveStream(channel.name);
             videoPlaying = true;
             liveViewersBlock.Text = stream.viewers.ToString();
             totalViewersBlock.Text = channel.views.ToString();
@@ -282,7 +266,7 @@ namespace TwixelApp
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HomePage), twixel);
+            Frame.Navigate(typeof(HomePage));
         }
 
         private async void updateStatusButton_Click(object sender, RoutedEventArgs e)
@@ -294,17 +278,17 @@ namespace TwixelApp
 
         private void liveButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(LiveStreamsPage), twixel);
+            Frame.Navigate(typeof(LiveStreamsPage));
         }
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesPage), twixel);
+            Frame.Navigate(typeof(GamesPage));
         }
 
         private void videosButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(VideosPage), twixel);
+            Frame.Navigate(typeof(VideosPage));
         }
 
         private void userButton_Click(object sender, RoutedEventArgs e)
@@ -339,7 +323,6 @@ namespace TwixelApp
         private void channelButton_Click(object sender, RoutedEventArgs e)
         {
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(channel);
             Frame.Navigate(typeof(ChannelPage), parameters);
         }
@@ -451,7 +434,6 @@ namespace TwixelApp
             GameStreamsGridViewBinding streamItem = (GameStreamsGridViewBinding)e.ClickedItem;
 
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(streamItem.stream);
             Dictionary<AppConstants.Quality, Uri> qualities = await AppConstants.GetQualities(streamItem.stream.channel.name);
             parameters.Add(qualities);
@@ -494,7 +476,6 @@ namespace TwixelApp
             FollowersGridViewBinding profileItem = (FollowersGridViewBinding)e.ClickedItem;
 
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(profileItem.Channel);
             Frame.Navigate(typeof(ChannelPage), parameters);
         }

@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Collections.Generic;
+using TwixelAPI.Constants;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using TwixelAPI;
-using TwixelApp.Constants;
-using TwixelAPI.Constants;
 
 // The Settings Flyout item template is documented at http://go.microsoft.com/fwlink/?LinkId=273769
 
@@ -22,12 +9,10 @@ namespace TwixelApp
 {
     public sealed partial class AccountsFlyout : SettingsFlyout
     {
-        Twixel twixel;
         Frame frame;
 
-        public AccountsFlyout(Twixel twixel, Frame frame)
+        public AccountsFlyout(Frame frame)
         {
-            this.twixel = twixel;
             this.frame = frame;
             this.InitializeComponent();
         }
@@ -56,7 +41,6 @@ namespace TwixelApp
         {
             List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
             List<object> param = new List<object>();
-            param.Add(twixel);
             param.Add(scopes);
             frame.Navigate(typeof(UserReadScope), param);
         }

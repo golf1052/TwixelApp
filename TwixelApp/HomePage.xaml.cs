@@ -1,35 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Text.RegularExpressions;
+using TwixelAPI;
+using TwixelAPI.Constants;
+using TwixelApp.Constants;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using TwixelAPI;
-using TwixelApp.Constants;
-using System.Diagnostics;
-using Windows.System;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using SM.Media;
-using SM.Media.Playlists;
-using SM.Media.Segments;
-using SM.Media.Web;
-using Windows.UI.Core;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
-using TwixelAPI.Constants;
-using Windows.UI.Popups;
-using Windows.Media;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -40,7 +21,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class HomePage : Page
     {
-        Twixel twixel;
         ObservableCollection<GameGridViewBinding> topGamesCollection;
 
         List<Game> justFetchedTopGames = new List<Game>();
@@ -111,8 +91,6 @@ namespace TwixelApp
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            twixel = (Twixel)e.Parameter;
-
             if (AppConstants.ActiveUser != null)
             {
                 if (AppConstants.ActiveUser.authorized)
@@ -131,7 +109,7 @@ namespace TwixelApp
 
             topGamesCollection = new ObservableCollection<GameGridViewBinding>();
             justFetchedTopGames = new List<Game>();
-            justFetchedTopGames = await twixel.RetrieveTopGames(10, false);
+            justFetchedTopGames = await AppConstants.twixel.RetrieveTopGames(10, false);
 
             if (justFetchedTopGames != null)
             {
@@ -142,10 +120,10 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not load top games.\nError Code: " + twixel.ErrorString);
+                AppConstants.ShowError("Could not load top games.\nError Code: " + AppConstants.twixel.ErrorString);
             }
 
-            featuredStreams = await twixel.RetrieveFeaturedStreams(5, false);
+            featuredStreams = await AppConstants.twixel.RetrieveFeaturedStreams(5, false);
             if (featuredStreams != null)
             {
                 if (featuredStreams.Count > 0)
@@ -174,7 +152,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not load featured streams.\nError Code: " + twixel.ErrorString);
+                AppConstants.ShowError("Could not load featured streams.\nError Code: " + AppConstants.twixel.ErrorString);
             }
         }
 
@@ -200,13 +178,12 @@ namespace TwixelApp
             {
                 List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
                 List<object> param = new List<object>();
-                param.Add(twixel);
                 param.Add(scopes);
                 Frame.Navigate(typeof(UserReadScope), param);
             }
             else
             {
-                Frame.Navigate(typeof(UserPage), twixel);
+                Frame.Navigate(typeof(UserPage));
             }
         }
 
@@ -231,7 +208,6 @@ namespace TwixelApp
             if (streamDoneLoading)
             {
                 List<object> parameters = new List<object>();
-                parameters.Add(twixel);
                 GameGridViewBinding gameItem = ((GameGridViewBinding)e.ClickedItem);
                 parameters.Add(gameItem.game);
                 Frame.Navigate(typeof(GameStreamsPage), parameters);
@@ -353,7 +329,6 @@ namespace TwixelApp
         private async void streamStreamButton_Click(object sender, RoutedEventArgs e)
         {
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(featuredStreams[selectedStreamIndex].stream);
             qualities = await AppConstants.GetQualities(featuredStreams[selectedStreamIndex].stream.channel.name);
             parameters.Add(qualities);
@@ -402,7 +377,6 @@ namespace TwixelApp
             if (streamDoneLoading)
             {
                 List<object> parameters = new List<object>();
-                parameters.Add(twixel);
                 parameters.Add(featuredStreams[selectedStreamIndex].stream.channel);
                 Frame.Navigate(typeof(ChannelPage), parameters);
             }
@@ -410,17 +384,17 @@ namespace TwixelApp
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesPage), twixel);
+            Frame.Navigate(typeof(GamesPage));
         }
 
         private void liveButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(LiveStreamsPage), twixel);
+            Frame.Navigate(typeof(LiveStreamsPage));
         }
 
         private void videosButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(VideosPage), twixel);
+            Frame.Navigate(typeof(VideosPage));
         }
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
@@ -454,7 +428,6 @@ namespace TwixelApp
             if (streamDoneLoading)
             {
                 List<object> parameters = new List<object>();
-                parameters.Add(twixel);
                 parameters.Add(searchBox.QueryText);
                 Frame.Navigate(typeof(SearchStreamsPage), parameters);
             }

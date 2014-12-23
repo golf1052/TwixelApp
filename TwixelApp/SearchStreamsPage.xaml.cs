@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using TwixelAPI.Constants;
+using TwixelApp.Constants;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using TwixelAPI;
-using TwixelApp.Constants;
-using TwixelAPI.Constants;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,7 +16,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class SearchStreamsPage : Page
     {
-        Twixel twixel;
         ObservableCollection<GameStreamsGridViewBinding> streamsCollection;
         string searchQuery;
 
@@ -38,8 +27,7 @@ namespace TwixelApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             List<object> parameters = (List<object>)e.Parameter;
-            twixel = (Twixel)parameters[0];
-            searchQuery = (string)parameters[1];
+            searchQuery = (string)parameters[0];
             searchText.Text = "Search Query: " + searchQuery;
 
             if (AppConstants.ActiveUser != null)
@@ -60,7 +48,7 @@ namespace TwixelApp
 
             streamsCollection = new ObservableCollection<GameStreamsGridViewBinding>();
             List<TwixelAPI.Stream> searchedStreams = new List<TwixelAPI.Stream>();
-            searchedStreams = await twixel.SearchStreams(searchQuery, 100);
+            searchedStreams = await AppConstants.twixel.SearchStreams(searchQuery, 100);
             foreach (TwixelAPI.Stream stream in searchedStreams)
             {
                 streamsCollection.Add(new GameStreamsGridViewBinding(stream));
@@ -71,22 +59,22 @@ namespace TwixelApp
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HomePage), twixel);
+            Frame.Navigate(typeof(HomePage));
         }
 
         private void liveButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(LiveStreamsPage), twixel);
+            Frame.Navigate(typeof(LiveStreamsPage));
         }
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesPage), twixel);
+            Frame.Navigate(typeof(GamesPage));
         }
 
         private void videosButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(VideosPage), twixel);
+            Frame.Navigate(typeof(VideosPage));
         }
 
         private void userButton_Click(object sender, RoutedEventArgs e)
@@ -95,13 +83,12 @@ namespace TwixelApp
             {
                 List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
                 List<object> param = new List<object>();
-                param.Add(twixel);
                 param.Add(scopes);
                 Frame.Navigate(typeof(UserReadScope), param);
             }
             else
             {
-                Frame.Navigate(typeof(UserPage), twixel);
+                Frame.Navigate(typeof(UserPage));
             }
         }
 
@@ -116,7 +103,6 @@ namespace TwixelApp
             GameStreamsGridViewBinding streamItem = (GameStreamsGridViewBinding)e.ClickedItem;
 
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(streamItem.stream);
             Dictionary<AppConstants.Quality, Uri> qualities = await AppConstants.GetQualities(streamItem.stream.channel.name);
             parameters.Add(qualities);
@@ -126,7 +112,6 @@ namespace TwixelApp
         private void searchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(searchBox.QueryText);
             Frame.Navigate(typeof(SearchStreamsPage), parameters);
         }

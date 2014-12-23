@@ -2,24 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using TwixelAPI;
 using TwixelAPI.Constants;
-using Windows.System;
 using TwixelApp.Constants;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using WinRTXamlToolkit.Controls.Extensions;
-using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,7 +20,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class VideosPage : Page
     {
-        Twixel twixel;
         ObservableCollection<VideosGridViewBinding> videosCollection;
         List<Video> videos;
         bool pageLoaded = false;
@@ -45,8 +34,6 @@ namespace TwixelApp
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            twixel = (Twixel)e.Parameter;
-
             if (AppConstants.ActiveUser != null)
             {
                 if (AppConstants.ActiveUser.authorized)
@@ -81,7 +68,7 @@ namespace TwixelApp
             weekRadioButton.IsEnabled = false;
             monthRadioButton.IsEnabled = false;
             allRadioButton.IsEnabled = false;
-            videos = await twixel.RetrieveTopVideos(100, "", period);
+            videos = await AppConstants.twixel.RetrieveTopVideos(100, "", period);
             foreach (Video video in videos)
             {
                 videosCollection.Add(new VideosGridViewBinding(video));
@@ -102,7 +89,7 @@ namespace TwixelApp
                 weekRadioButton.IsEnabled = false;
                 monthRadioButton.IsEnabled = false;
                 allRadioButton.IsEnabled = false;
-                videos = await twixel.RetrieveTopVideos(true);
+                videos = await AppConstants.twixel.RetrieveTopVideos(true);
                 if (videos.Count == 0)
                 {
                     endOfList = true;
@@ -121,17 +108,17 @@ namespace TwixelApp
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HomePage), twixel);
+            Frame.Navigate(typeof(HomePage));
         }
 
         private void liveButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(LiveStreamsPage), twixel);
+            Frame.Navigate(typeof(LiveStreamsPage));
         }
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesPage), twixel);
+            Frame.Navigate(typeof(GamesPage));
         }
 
         private void videosButton_Click(object sender, RoutedEventArgs e)
@@ -145,13 +132,12 @@ namespace TwixelApp
             {
                 List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
                 List<object> param = new List<object>();
-                param.Add(twixel);
                 param.Add(scopes);
                 Frame.Navigate(typeof(UserReadScope), param);
             }
             else
             {
-                Frame.Navigate(typeof(UserPage), twixel);
+                Frame.Navigate(typeof(UserPage));
             }
         }
 

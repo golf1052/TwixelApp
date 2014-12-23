@@ -20,8 +20,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class GlobalPage : Page
     {
-        Twixel twixel;
-
         public GlobalPage()
         {
             this.InitializeComponent();
@@ -29,8 +27,7 @@ namespace TwixelApp
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            twixel = (Twixel)e.Parameter;
-            twixel.TwixelErrorEvent += twixel_TwixelErrorEvent;
+            AppConstants.twixel.TwixelErrorEvent += twixel_TwixelErrorEvent;
         }
 
         void twixel_TwixelErrorEvent(object source, TwixelErrorEventArgs e)
@@ -40,7 +37,7 @@ namespace TwixelApp
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            twixel.TwixelErrorEvent -= twixel_TwixelErrorEvent;
+            AppConstants.twixel.TwixelErrorEvent -= twixel_TwixelErrorEvent;
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -102,21 +99,21 @@ namespace TwixelApp
                 foreach (KeyValuePair<string, string> user in users)
                 {
                     loadingText.Text = "loading " + user.Key.ToString();
-                    tempUser = await twixel.RetrieveUserWithAccessToken(user.Value);
+                    tempUser = await AppConstants.twixel.RetrieveUserWithAccessToken(user.Value);
                     if (tempUser == null)
                     {
                         loadingText.Text = user.Value + "'s token invalid";
-                        Frame.Navigate(typeof(FirstLaunchInfo), twixel);
+                        Frame.Navigate(typeof(FirstLaunchInfo));
                         return;
                     }
                 }
                 AppConstants.ActiveUser = tempUser;
-                Frame.Navigate(typeof(HomePage), twixel);
+                Frame.Navigate(typeof(HomePage));
             }
             catch (FileNotFoundException ex)
             {
                 loadingText.Text = "users data not found";
-                Frame.Navigate(typeof(FirstLaunchInfo), twixel);
+                Frame.Navigate(typeof(FirstLaunchInfo));
             }
         }
     }

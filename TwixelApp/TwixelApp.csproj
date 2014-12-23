@@ -117,7 +117,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatWindow.cs" />
-    <Compile Include="Emote.cs" />
     <Compile Include="FinalConfirmation.xaml.cs">
       <DependentUpon>FinalConfirmation.xaml</DependentUpon>
     </Compile>
@@ -197,7 +196,6 @@
     <Compile Include="StreamPage.xaml.cs">
       <DependentUpon>StreamPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SubscriberEmote.cs" />
     <Compile Include="TwitchChatUser.cs" />
     <Compile Include="UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>

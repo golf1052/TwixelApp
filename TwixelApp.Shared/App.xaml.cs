@@ -52,7 +52,7 @@ namespace TwixelApp
 
         public void ShowAccountsFlyout()
         {
-            AccountsFlyout accountsFlyout = new AccountsFlyout(twixel, (Frame)Window.Current.Content);
+            AccountsFlyout accountsFlyout = new AccountsFlyout((Frame)Window.Current.Content);
             accountsFlyout.Show();
         }
 
@@ -108,7 +108,7 @@ namespace TwixelApp
 #if WINDOWS_PHONE_APP
                 rootFrame.Navigate(typeof(GlobalPageWP), twixel);
 #else
-                rootFrame.Navigate(typeof(GlobalPage), twixel);
+                rootFrame.Navigate(typeof(GlobalPage));
 #endif
 
             }

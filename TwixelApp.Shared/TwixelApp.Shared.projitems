@@ -30,7 +30,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Emote.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StreamerObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SubscriberEmote.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Common\ReadMe.txt" />

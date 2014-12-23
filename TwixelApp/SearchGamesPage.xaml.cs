@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using TwixelAPI;
+using TwixelAPI.Constants;
+using TwixelApp.Constants;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using TwixelAPI;
-using TwixelApp.Constants;
-using TwixelAPI.Constants;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,7 +16,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class SearchGamesPage : Page
     {
-        Twixel twixel;
         ObservableCollection<GameGridViewBinding> gamesCollection;
         string searchQuery;
         bool clickedItem = false;
@@ -39,8 +28,7 @@ namespace TwixelApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             List<object> parameters = (List<object>)e.Parameter;
-            twixel = (Twixel)parameters[0];
-            searchQuery = (string)parameters[1];
+            searchQuery = (string)parameters[0];
             searchText.Text = "Search Query: " + searchQuery;
 
             if (AppConstants.ActiveUser != null)
@@ -61,7 +49,7 @@ namespace TwixelApp
 
             gamesCollection = new ObservableCollection<GameGridViewBinding>();
             List<SearchedGame> searchedGames = new List<SearchedGame>();
-            searchedGames = await twixel.SearchGames(searchQuery, true);
+            searchedGames = await AppConstants.twixel.SearchGames(searchQuery, true);
 
             foreach (SearchedGame searchedGame in searchedGames)
             {
@@ -73,22 +61,22 @@ namespace TwixelApp
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HomePage), twixel);
+            Frame.Navigate(typeof(HomePage));
         }
 
         private void liveButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(LiveStreamsPage), twixel);
+            Frame.Navigate(typeof(LiveStreamsPage));
         }
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesPage), twixel);
+            Frame.Navigate(typeof(GamesPage));
         }
 
         private void videosButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(VideosPage), twixel);
+            Frame.Navigate(typeof(VideosPage));
         }
 
         private void userButton_Click(object sender, RoutedEventArgs e)
@@ -97,13 +85,12 @@ namespace TwixelApp
             {
                 List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
                 List<object> param = new List<object>();
-                param.Add(twixel);
                 param.Add(scopes);
                 Frame.Navigate(typeof(UserReadScope), param);
             }
             else
             {
-                Frame.Navigate(typeof(UserPage), twixel);
+                Frame.Navigate(typeof(UserPage));
             }
         }
 
@@ -119,10 +106,9 @@ namespace TwixelApp
             {
                 clickedItem = true;
                 List<object> parameters = new List<object>();
-                parameters.Add(twixel);
                 GameGridViewBinding gameItem = (GameGridViewBinding)e.ClickedItem;
                 List<Game> games = new List<Game>();
-                games = await twixel.RetrieveTopGames(100, false);
+                games = await AppConstants.twixel.RetrieveTopGames(100, false);
                 bool foundGame = false;
                 foreach (Game game in games)
                 {
@@ -139,7 +125,7 @@ namespace TwixelApp
                 {
                     if (!foundGame)
                     {
-                        games = await twixel.RetrieveTopGames(true);
+                        games = await AppConstants.twixel.RetrieveTopGames(true);
                         foreach (Game game in games)
                         {
                             if (game.name == gameItem.game.name)
@@ -161,7 +147,6 @@ namespace TwixelApp
         private void searchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(searchBox.QueryText);
             Frame.Navigate(typeof(SearchGamesPage), parameters);
         }

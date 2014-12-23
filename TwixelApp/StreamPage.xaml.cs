@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using TwixelAPI;
+using TwixelAPI.Constants;
 using TwixelApp.Constants;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using TwixelAPI.Constants;
-using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -19,7 +18,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class StreamPage : Page
     {
-        Twixel twixel;
         TwixelAPI.Stream stream;
         Dictionary<AppConstants.Quality, Uri> qualities;
         bool justLaunchedPage = true;
@@ -142,9 +140,8 @@ namespace TwixelApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             List<object> parameters = (List<object>)e.Parameter;
-            twixel = (Twixel)parameters[0];
-            stream = (TwixelAPI.Stream)parameters[1];
-            qualities = (Dictionary<AppConstants.Quality, Uri>)parameters[2];
+            stream = (TwixelAPI.Stream)parameters[0];
+            qualities = (Dictionary<AppConstants.Quality, Uri>)parameters[1];
 
             #region Stream Stuff
             if (CheckOffline())
@@ -222,7 +219,7 @@ namespace TwixelApp
 
             justLaunchedPage = false;
             volumeFlyout = new VolumeFlyout(volumeSlider, muteButton, volumeButton, streamPlayer);
-            chatWindow = new ChatWindow(twixel, Dispatcher, stream.channel.name, chatGrid, chatView, chatBox, chatSendButton);
+            chatWindow = new ChatWindow(Dispatcher, stream.channel.name, chatGrid, chatView, chatBox, chatSendButton);
             await chatWindow.LoadChatWindow();
             #endregion
 
@@ -443,7 +440,7 @@ namespace TwixelApp
 
             if (!streamOffline)
             {
-                stream = await twixel.RetrieveStream(stream.channel.name);
+                stream = await AppConstants.twixel.RetrieveStream(stream.channel.name);
                 if (stream != null)
                 {
                     streamDescription.Text = stream.channel.status;
@@ -457,14 +454,13 @@ namespace TwixelApp
         private void channelButton_Click(object sender, RoutedEventArgs e)
         {
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             parameters.Add(stream.channel);
             Frame.Navigate(typeof(ChannelPage), parameters);
         }
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HomePage), twixel);
+            Frame.Navigate(typeof(HomePage));
         }
 
         private void userButton_Click(object sender, RoutedEventArgs e)
@@ -473,29 +469,28 @@ namespace TwixelApp
             {
                 List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
                 List<object> param = new List<object>();
-                param.Add(twixel);
                 param.Add(scopes);
                 Frame.Navigate(typeof(UserReadScope), param);
             }
             else
             {
-                Frame.Navigate(typeof(UserPage), twixel);
+                Frame.Navigate(typeof(UserPage));
             }
         }
 
         private void liveButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(LiveStreamsPage), twixel);
+            Frame.Navigate(typeof(LiveStreamsPage));
         }
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesPage), twixel);
+            Frame.Navigate(typeof(GamesPage));
         }
 
         private void videosButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(VideosPage), twixel);
+            Frame.Navigate(typeof(VideosPage));
         }
 
         private void chatButton_Click(object sender, RoutedEventArgs e)

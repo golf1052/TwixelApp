@@ -1,26 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using TwixelAPI;
+using TwixelAPI.Constants;
+using TwixelApp.Constants;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Imaging;
-using TwixelAPI;
-using TwixelApp.Constants;
-using Newtonsoft.Json.Linq;
-using Windows.System;
+using Windows.UI.Xaml.Navigation;
 using WinRTXamlToolkit.Controls.Extensions;
-using TwixelAPI.Constants;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,7 +20,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class ChannelPage : Page
     {
-        Twixel twixel;
         Channel channel;
         User user;
         ObservableCollection<VideosGridViewBinding> videosCollection = new ObservableCollection<VideosGridViewBinding>();
@@ -51,9 +39,8 @@ namespace TwixelApp
         {
             List<object> parameters = new List<object>();
             parameters = (List<object>)e.Parameter;
-            twixel = (Twixel)parameters[0];
-            channel = (Channel)parameters[1];
-            user = await twixel.RetrieveUser(channel.name);
+            channel = (Channel)parameters[0];
+            user = await AppConstants.twixel.RetrieveUser(channel.name);
 
             if (AppConstants.ActiveUser != null)
             {
@@ -98,7 +85,7 @@ namespace TwixelApp
                 bannerImage.Source = image;
             }
 
-            videos = await twixel.RetrieveVideos(channel.name, 100, false);
+            videos = await AppConstants.twixel.RetrieveVideos(channel.name, 100, false);
 
             if (videos != null)
             {
@@ -109,7 +96,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not pull channel videos.\nError Code: " + twixel.ErrorString);
+                AppConstants.ShowError("Could not pull channel videos.\nError Code: " + AppConstants.twixel.ErrorString);
             }
         }
 
@@ -119,7 +106,7 @@ namespace TwixelApp
             {
                 currentlyPullingVideos = true;
                 loadingVideosStatusBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                videos = await twixel.RetrieveTopVideos(true);
+                videos = await AppConstants.twixel.RetrieveTopVideos(true);
                 if (videos.Count == 0)
                 {
                     endOfList = true;
@@ -162,11 +149,10 @@ namespace TwixelApp
         private async void streamButton_Click(object sender, RoutedEventArgs e)
         {
             List<object> parameters = new List<object>();
-            parameters.Add(twixel);
             TwixelAPI.Stream stream;
             try
             {
-                stream = await twixel.RetrieveStream(channel.name);
+                stream = await AppConstants.twixel.RetrieveStream(channel.name);
             }
             catch
             {
@@ -182,7 +168,7 @@ namespace TwixelApp
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HomePage), twixel);
+            Frame.Navigate(typeof(HomePage));
         }
 
         private async void videosGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -199,29 +185,28 @@ namespace TwixelApp
             {
                 List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
                 List<object> param = new List<object>();
-                param.Add(twixel);
                 param.Add(scopes);
                 Frame.Navigate(typeof(UserReadScope), param);
             }
             else
             {
-                Frame.Navigate(typeof(UserPage), twixel);
+                Frame.Navigate(typeof(UserPage));
             }
         }
 
         private void liveButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(LiveStreamsPage), twixel);
+            Frame.Navigate(typeof(LiveStreamsPage));
         }
 
         private void gamesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesPage), twixel);
+            Frame.Navigate(typeof(GamesPage));
         }
 
         private void videosButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(VideosPage), twixel);
+            Frame.Navigate(typeof(VideosPage));
         }
     }
 }

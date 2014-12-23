@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json.Linq;
 using TwixelAPI;
 using TwixelAPI.Constants;
 using TwixelApp.Constants;
 using Windows.Storage;
-using Newtonsoft.Json.Linq;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,7 +17,6 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class FinalConfirmation : Page
     {
-        Twixel twixel;
         List<TwitchConstants.Scope> scopes;
 
         public FinalConfirmation()
@@ -38,9 +27,8 @@ namespace TwixelApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             List<object> param = (List<object>)e.Parameter;
-            twixel = (Twixel)param[0];
-            scopes = (List<TwitchConstants.Scope>)param[1];
-            Uri webPage = twixel.Login(scopes);
+            scopes = (List<TwitchConstants.Scope>)param[0];
+            Uri webPage = AppConstants.twixel.Login(scopes);
             twitchLoginWebView.Navigate(webPage);
 
             if (!scopes.Contains(TwitchConstants.Scope.UserRead))
@@ -120,7 +108,7 @@ namespace TwixelApp
                         authorizedScopes.Add(TwitchConstants.StringToScope(scope));
                     }
                     User user = null;
-                    user = await twixel.RetrieveUserWithAccessToken(secondSplitString[0]);
+                    user = await AppConstants.twixel.RetrieveUserWithAccessToken(secondSplitString[0]);
                     JObject userData = new JObject();
                     userData["active"] = 0;
                     JObject userO = new JObject();
@@ -131,11 +119,11 @@ namespace TwixelApp
                     StorageFile usersFile = await roamingFolder.CreateFileAsync("usersFile.json", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteTextAsync(usersFile, userData.ToString());
                     AppConstants.ActiveUser = user;
-                    Frame.Navigate(typeof(HomePage), twixel);
+                    Frame.Navigate(typeof(HomePage));
                 }
                 else if (twitchLoginWebView.Source.Query == "?error=access_denied&error_description=The+user+denied+you+access")
                 {
-                    Frame.Navigate(typeof(HomePage), twixel);
+                    Frame.Navigate(typeof(HomePage));
                 }
             }
         }

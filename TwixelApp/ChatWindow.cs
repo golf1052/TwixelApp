@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Controls.Primitives;
-using WinRTXamlToolkit.Controls.Extensions;
-using TwixelAPI;
-using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
+using System.Linq;
+using System.Threading.Tasks;
 using TwixelApp.Constants;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media.Imaging;
+using WinRTXamlToolkit.Controls.Extensions;
 
 namespace TwixelApp
 {
     public class ChatWindow
     {
-        Twixel twixel;
         public Client client;
         MessageHandlerListener messageListener;
         bool keyPressed;
@@ -45,15 +42,13 @@ namespace TwixelApp
 
         SubscriberEmote channelEmotes;
 
-        public ChatWindow(Twixel twixel,
-            CoreDispatcher Dispatcher,
+        public ChatWindow(CoreDispatcher Dispatcher,
             string channelName,
             Grid chatGrid,
             ListView chatView,
             TextBox chatBox,
             Button chatSendButton)
         {
-            this.twixel = twixel;
             this.channelName = channelName;
             this.Dispatcher = Dispatcher;
             this.chatGrid = chatGrid;
