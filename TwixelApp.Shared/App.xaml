@@ -129,6 +129,41 @@
 				</StackPanel>
 			</Grid>
 		</DataTemplate>
+		<DataTemplate x:Key="GameItemPhoneTemplate">
+			<Grid Width="136" Height="230" Margin="2">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Border BorderThickness="2" Grid.RowSpan="2">
+					<Border.BorderBrush>
+						<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+					</Border.BorderBrush>
+				</Border>
+				<Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="136" Source="{Binding Image}"/>
+				<Grid Grid.Row="1" VerticalAlignment="Top">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<TextBlock HorizontalAlignment="Center" Text="{Binding Name}" VerticalAlignment="Top" TextTrimming="CharacterEllipsis" Margin="4,0"/>
+					<Grid Grid.Row="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Orientation="Horizontal">
+							<Image Source="ms-appx:///Assets/channelsDarkIcon.png" Stretch="None"/>
+							<TextBlock TextWrapping="Wrap" Text="{Binding Channels}" VerticalAlignment="Center"/>
+						</StackPanel>
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Grid.Column="1" Orientation="Horizontal">
+							<Image Source="ms-appx:///Assets/viewersDarkIcon.png" Stretch="None"/>
+							<TextBlock TextWrapping="Wrap" Text="{Binding Viewers}" VerticalAlignment="Center"/>
+						</StackPanel>
+					</Grid>
+				</Grid>
+			</Grid>
+		</DataTemplate>
 	</Application.Resources>
 
 </Application>

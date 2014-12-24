@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using TwixelAPI;
 using TwixelAPI.Constants;
 using TwixelApp.Constants;
+using Windows.Graphics.Display;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -180,7 +181,7 @@ namespace TwixelApp
                 {
                     forwardStreamButton.IsEnabled = true;
                 }
-                //topGamesGridView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                topGamesGridView.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
 
             streamerObject.mediaElement_CurrentStateChanged(sender, e);
@@ -291,6 +292,40 @@ namespace TwixelApp
         private void featuredStreamPlayer_BufferingProgressChanged(object sender, RoutedEventArgs e)
         {
             streamerObject.mediaElement_BufferingProgressChanged(sender, e);
+        }
+
+        private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double phoneWidth = featuredPivotItem.ActualWidth;
+            double phoneHeight = featuredPivotItem.ActualHeight;
+            double ratio = 1920.0 / 1080.0;
+            if (phoneWidth < phoneHeight)
+            {
+                // Portrait
+                featuredStreamPlayer.Width = phoneWidth - 2;
+                featuredStreamPlayer.Height = featuredStreamPlayer.Width / ratio;
+            }
+            else
+            {
+                // Landscape
+                double controlHeight = 56;
+                double descriptionHeight;
+                if (featuredDescriptionTextBlock != null)
+                {
+                    descriptionHeight = featuredDescriptionTextBlock.ActualHeight;
+                }
+                else
+                {
+                    descriptionHeight = 14;
+                }
+                featuredStreamPlayer.Height = phoneHeight - controlHeight - descriptionHeight;
+                featuredStreamPlayer.Width = featuredStreamPlayer.Height * ratio;
+            }
+        }
+
+        private void topGamesGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            topGamesGridView.ItemsSource = topGamesCollection;
         }
     }
 }

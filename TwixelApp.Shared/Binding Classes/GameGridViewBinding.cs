@@ -29,7 +29,11 @@ namespace TwixelApp
             this.Name = game.name;
             this.Viewers = (int)game.viewers;
             this.Channels = (int)game.channels;
+#if WINDOWS_PHONE_APP
+            this.Image = game.boxMedium.url;
+#else
             this.Image = game.boxLarge.url;
+#endif
             this.game = game;
         }
     }
