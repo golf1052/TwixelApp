@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="TwixelApp.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwixelApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+    	<Pivot Title="">
+    		<PivotItem Header="featured">
+    			<Grid VerticalAlignment="Top">
+    				<Grid.RowDefinitions>
+    					<RowDefinition/>
+    					<RowDefinition Height="Auto"/>
+    				</Grid.RowDefinitions>
+    				<Border BorderThickness="2">
+    					<Border.BorderBrush>
+    						<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+    					</Border.BorderBrush>
+    					<Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+    						<Grid.RowDefinitions>
+    							<RowDefinition Height="Auto"/>
+    							<RowDefinition/>
+    							<RowDefinition Height="Auto"/>
+    						</Grid.RowDefinitions>
+    						<TextBlock x:Name="featuredGameTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+    						<MediaElement x:Name="featuredStreamPlayer" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Row="1" Width="360" Height="202.5" Loaded="featuredStreamPlayer_Loaded" CurrentStateChanged="featuredStreamPlayer_CurrentStateChanged" MediaEnded="featuredStreamPlayer_MediaEnded" MediaFailed="featuredStreamPlayer_MediaFailed" MediaOpened="featuredStreamPlayer_MediaOpened" BufferingProgressChanged="featuredStreamPlayer_BufferingProgressChanged"/>
+    						<TextBlock x:Name="featuredDescriptionTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.Row="2"/>
+    						<TextBlock x:Name="streamOfflineTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="stream offline" VerticalAlignment="Center" Grid.Row="1" FontSize="48" Visibility="Collapsed">
+    							<TextBlock.Foreground>
+    								<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+    							</TextBlock.Foreground>
+    						</TextBlock>
+    					</Grid>
+    				</Border>
+    				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Orientation="Horizontal">
+    					<AppBarButton x:Name="backStreamButton" HorizontalAlignment="Stretch" Icon="Back" Label="appbarbutton" VerticalAlignment="Stretch" IsCompact="True" Click="backStreamButton_Click"/>
+    					<AppBarButton x:Name="streamStreamButton" HorizontalAlignment="Stretch" Icon="Video" Label="appbarbutton" VerticalAlignment="Stretch" IsCompact="True" Click="streamStreamButton_Click"/>
+    					<AppBarButton x:Name="pausePlayButton" HorizontalAlignment="Stretch" Icon="Pause" Label="appbarbutton" VerticalAlignment="Stretch" IsCompact="True" Click="pausePlayButton_Click"/>
+    					<AppBarButton x:Name="channelStreamButton" HorizontalAlignment="Stretch" Label="appbarbutton" VerticalAlignment="Stretch" IsCompact="True" Click="channelStreamButton_Click">
+    						<AppBarButton.Icon>
+    							<BitmapIcon UriSource="Assets/channelsAppBar.png"/>
+    						</AppBarButton.Icon>
+    					</AppBarButton>
+    					<AppBarButton x:Name="forwardStreamButton" HorizontalAlignment="Stretch" Icon="Forward" Label="appbarbutton" VerticalAlignment="Stretch" IsCompact="True" Click="forwardStreamButton_Click"/>
+    				</StackPanel>
+    			</Grid>
+    		</PivotItem>
+    		<PivotItem Header="PivotItem 1">
+    			<Grid/>
+    		</PivotItem>
+    	</Pivot>
+    </Grid>
+</Page>

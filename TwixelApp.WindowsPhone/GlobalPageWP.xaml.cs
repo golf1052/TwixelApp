@@ -107,7 +107,7 @@ namespace TwixelApp
                     }
                 }
                 AppConstants.ActiveUser = tempUser;
-                //Frame.Navigate(typeof(HomePage));
+                Frame.Navigate(typeof(HomePage));
             }
             catch (FileNotFoundException ex)
             {

@@ -119,11 +119,11 @@ namespace TwixelApp
                     StorageFile usersFile = await roamingFolder.CreateFileAsync("usersFile.json", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteTextAsync(usersFile, userData.ToString());
                     AppConstants.ActiveUser = user;
-                    //Frame.Navigate(typeof(HomePage));
+                    Frame.Navigate(typeof(HomePage));
                 }
                 else if (twitchLoginWebView.Source.Query == "?error=access_denied&error_description=The+user+denied+you+access")
                 {
-                    //Frame.Navigate(typeof(HomePage));
+                    Frame.Navigate(typeof(HomePage));
                 }
             }
         }

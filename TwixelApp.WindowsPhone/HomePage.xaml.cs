@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace TwixelApp
 {
@@ -22,30 +22,13 @@ namespace TwixelApp
     public sealed partial class HomePage : Page
     {
         ObservableCollection<GameGridViewBinding> topGamesCollection;
-
         List<Game> justFetchedTopGames = new List<Game>();
-
         List<FeaturedStream> featuredStreams = new List<FeaturedStream>();
-        GridView topGamesGridView;
-        AppBarButton backStreamButton;
-        AppBarButton forwardStreamButton;
-        AppBarButton pausePlayButton;
-        AppBarButton streamStreamButton;
-        AppBarButton channelStreamButton;
-        TextBlock featuredGameTextBlock;
-        Grid streamGrid;
-        MediaElement featuredStreamPlayer;
-        TextBlock featuredDescriptionTextBlock;
         int selectedStreamIndex;
         Dictionary<AppConstants.Quality, Uri> qualities;
-
         bool videoPlaying = false;
-
         StreamerObject streamerObject;
-
-        TextBlock streamOfflineTextBlock;
         bool streamIsOffline = false;
-
         bool streamDoneLoading = false;
 
         public HomePage()
@@ -54,21 +37,6 @@ namespace TwixelApp
 
             Application.Current.Suspending += Current_Suspending;
             Application.Current.Resuming += Current_Resuming;
-        }
-
-        private void featuredStreamPlayer_Loaded(object sender, RoutedEventArgs e)
-        {
-            featuredStreamPlayer = (MediaElement)sender;
-            streamerObject = new StreamerObject(Dispatcher, featuredStreamPlayer, PlayPauseAction);
-            streamerObject.StreamerObjectErrorEvent += streamerObject_StreamerObjectErrorEvent;
-            streamerObject.OnNavigatedTo("Twixel", "Twixel");
-            Unloaded += HomePage_Unloaded;
-        }
-
-        async void streamerObject_StreamerObjectErrorEvent(object source, StreamerObjectErrorEventArgs e)
-        {
-            MessageDialog errorMessage = new MessageDialog("Uh...something went wrong...\nDetailed info: " + e.ErrorString);
-            await errorMessage.ShowAsync();
         }
 
         void Current_Resuming(object sender, object e)
@@ -86,22 +54,6 @@ namespace TwixelApp
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (AppConstants.ActiveUser != null)
-            {
-                if (AppConstants.ActiveUser.authorized)
-                {
-                    userButton.Content = AppConstants.ActiveUser.displayName;
-                }
-                else
-                {
-                    userButton.Content = "Log In";
-                }
-            }
-            else
-            {
-                userButton.Content = "Log In";
-            }
-
             topGamesCollection = new ObservableCollection<GameGridViewBinding>();
             justFetchedTopGames = new List<Game>();
             justFetchedTopGames = await AppConstants.twixel.RetrieveTopGames(10, false);
@@ -150,12 +102,6 @@ namespace TwixelApp
             }
         }
 
-        public static string FixDescription(string description)
-        {
-            string[] split = description.Split('\n');
-            return Regex.Replace(split[0], "<.*?>", string.Empty);
-        }
-
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -166,51 +112,56 @@ namespace TwixelApp
             Application.Current.Resuming -= Current_Resuming;
         }
 
-        private void userButton_Click(object sender, RoutedEventArgs e)
+        public static string FixDescription(string description)
         {
-            if (AppConstants.ActiveUser == null || !AppConstants.ActiveUser.authorized)
-            {
-                List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
-                List<object> param = new List<object>();
-                param.Add(scopes);
-                Frame.Navigate(typeof(UserReadScope), param);
-            }
-            else
-            {
-                Frame.Navigate(typeof(UserPage));
-            }
+            string[] split = description.Split('\n');
+            return Regex.Replace(split[0], "<.*?>", string.Empty);
         }
 
-        private void topGamesGridView_Loaded(object sender, RoutedEventArgs e)
+        private void featuredStreamPlayer_Loaded(object sender, RoutedEventArgs e)
         {
-            topGamesGridView = sender as GridView;
-            topGamesGridView.ItemsSource = topGamesCollection;
-        }
-
-        private void featuredGameTitle_Loaded(object sender, RoutedEventArgs e)
-        {
-            featuredGameTextBlock = (TextBlock)sender;
-        }
-
-        private void featuredGameText_Loaded(object sender, RoutedEventArgs e)
-        {
-            featuredDescriptionTextBlock = (TextBlock)sender;
-        }
-
-        private void topGamesGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (streamDoneLoading)
-            {
-                List<object> parameters = new List<object>();
-                GameGridViewBinding gameItem = ((GameGridViewBinding)e.ClickedItem);
-                parameters.Add(gameItem.game);
-                Frame.Navigate(typeof(GameStreamsPage), parameters);
-            }
+            streamerObject = new StreamerObject(Dispatcher, featuredStreamPlayer, PlayPauseAction);
+            streamerObject.StreamerObjectErrorEvent += streamerObject_StreamerObjectErrorEvent;
+            streamerObject.OnNavigatedTo("Twixel", "Twixel");
+            Unloaded += HomePage_Unloaded;
         }
 
         void HomePage_Unloaded(object sender, RoutedEventArgs e)
         {
             streamerObject.OnUnload();
+        }
+
+        async void streamerObject_StreamerObjectErrorEvent(object source, StreamerObjectErrorEventArgs e)
+        {
+            MessageDialog errorMessage = new MessageDialog("Uh...something went wrong...\nDetailed info: " + e.ErrorString);
+            await errorMessage.ShowAsync();
+        }
+
+        public async void PlayPauseAction()
+        {
+            if (videoPlaying)
+            {
+                streamerObject.Stop();
+                videoPlaying = false;
+                ((SymbolIcon)pausePlayButton.Icon).Symbol = Symbol.Play;
+            }
+            else
+            {
+                qualities = await AppConstants.GetQualities(featuredStreams[selectedStreamIndex].stream.channel.name);
+
+                if (qualities == null)
+                {
+                    streamOfflineTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    streamIsOffline = true;
+                    pausePlayButton.IsEnabled = false;
+                }
+                else
+                {
+                    AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
+                    videoPlaying = true;
+                    ((SymbolIcon)pausePlayButton.Icon).Symbol = Symbol.Pause;
+                }
+            }
         }
 
         private void featuredStreamPlayer_CurrentStateChanged(object sender, RoutedEventArgs e)
@@ -229,7 +180,7 @@ namespace TwixelApp
                 {
                     forwardStreamButton.IsEnabled = true;
                 }
-                topGamesGridView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                //topGamesGridView.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
 
             streamerObject.mediaElement_CurrentStateChanged(sender, e);
@@ -277,6 +228,30 @@ namespace TwixelApp
             }
         }
 
+        private async void streamStreamButton_Click(object sender, RoutedEventArgs e)
+        {
+            //List<object> parameters = new List<object>();
+            //parameters.Add(featuredStreams[selectedStreamIndex].stream);
+            //qualities = await AppConstants.GetQualities(featuredStreams[selectedStreamIndex].stream.channel.name);
+            //parameters.Add(qualities);
+            //Frame.Navigate(typeof(StreamPage), parameters);
+        }
+
+        private void pausePlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            PlayPauseAction();
+        }
+
+        private void channelStreamButton_Click(object sender, RoutedEventArgs e)
+        {
+            //if (streamDoneLoading)
+            //{
+            //    List<object> parameters = new List<object>();
+            //    parameters.Add(featuredStreams[selectedStreamIndex].stream.channel);
+            //    Frame.Navigate(typeof(ChannelPage), parameters);
+            //}
+        }
+
         private async void forwardStreamButton_Click(object sender, RoutedEventArgs e)
         {
             selectedStreamIndex++;
@@ -308,132 +283,6 @@ namespace TwixelApp
             }
         }
 
-        private void backStreamButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            backStreamButton = (AppBarButton)sender;
-        }
-
-        private void forwardStreamButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            forwardStreamButton = (AppBarButton)sender;
-        }
-
-        private async void streamStreamButton_Click(object sender, RoutedEventArgs e)
-        {
-            List<object> parameters = new List<object>();
-            parameters.Add(featuredStreams[selectedStreamIndex].stream);
-            qualities = await AppConstants.GetQualities(featuredStreams[selectedStreamIndex].stream.channel.name);
-            parameters.Add(qualities);
-            Frame.Navigate(typeof(StreamPage), parameters);
-        }
-
-        private void pausePlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            PlayPauseAction();
-        }
-
-        public async void PlayPauseAction()
-        {
-            if (videoPlaying)
-            {
-                streamerObject.Stop();
-                videoPlaying = false;
-                ((SymbolIcon)pausePlayButton.Icon).Symbol = Symbol.Play;
-            }
-            else
-            {
-                qualities = await AppConstants.GetQualities(featuredStreams[selectedStreamIndex].stream.channel.name);
-
-                if (qualities == null)
-                {
-                    streamOfflineTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    streamIsOffline = true;
-                    pausePlayButton.IsEnabled = false;
-                }
-                else
-                {
-                    AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
-                    videoPlaying = true;
-                    ((SymbolIcon)pausePlayButton.Icon).Symbol = Symbol.Pause;
-                }
-            }
-        }
-
-        private void pausePlayButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            pausePlayButton = sender as AppBarButton;
-        }
-
-        private void channelStreamButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (streamDoneLoading)
-            {
-                List<object> parameters = new List<object>();
-                parameters.Add(featuredStreams[selectedStreamIndex].stream.channel);
-                Frame.Navigate(typeof(ChannelPage), parameters);
-            }
-        }
-
-        private void gamesButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(GamesPage));
-        }
-
-        private void liveButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(LiveStreamsPage));
-        }
-
-        private void videosButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(VideosPage));
-        }
-
-        private void homeButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Do Nothing
-        }
-
-        private void featuredStreamPlayer_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
-        }
-
-        private void streamOfflineTextBlock_Loaded(object sender, RoutedEventArgs e)
-        {
-            streamOfflineTextBlock = sender as TextBlock;
-        }
-
-        private void streamGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-            streamGrid = (Grid)sender;
-        }
-
-        private void sectionGrid_Loaded_1(object sender, RoutedEventArgs e)
-        {
-            //Grid grid = sender as Grid;
-            //grid.Margin = new Thickness(0, mainGrid.ActualHeight - 275 - (mainGrid.ActualHeight * (2.0/3.0)), 0, 0);
-        }
-
-        private void searchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
-        {
-            if (streamDoneLoading)
-            {
-                List<object> parameters = new List<object>();
-                parameters.Add(searchBox.QueryText);
-                Frame.Navigate(typeof(SearchStreamsPage), parameters);
-            }
-        }
-
-        private void headerImage_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void mainHub_Loaded(object sender, RoutedEventArgs e)
-        {
-            mainHub.Focus(FocusState.Programmatic);
-        }
-
         private void featuredStreamPlayer_MediaOpened(object sender, RoutedEventArgs e)
         {
             streamerObject.mediaElement_MediaOpened(sender, e);
@@ -442,16 +291,6 @@ namespace TwixelApp
         private void featuredStreamPlayer_BufferingProgressChanged(object sender, RoutedEventArgs e)
         {
             streamerObject.mediaElement_BufferingProgressChanged(sender, e);
-        }
-
-        private void streamStreamButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            streamStreamButton = sender as AppBarButton;
-        }
-
-        private void channelStreamButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            channelStreamButton = sender as AppBarButton;
         }
     }
 }

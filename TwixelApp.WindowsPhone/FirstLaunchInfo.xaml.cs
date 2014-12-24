@@ -32,7 +32,7 @@ namespace TwixelApp
 
         private void continueBlock_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //Frame.Navigate(typeof(HomePage));
+            Frame.Navigate(typeof(HomePage));
         }
     }
 }
