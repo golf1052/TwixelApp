@@ -89,6 +89,9 @@
     <Compile Include="FirstLaunchInfo.xaml.cs">
       <DependentUpon>FirstLaunchInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameStreamsPage.xaml.cs">
+      <DependentUpon>GameStreamsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalPageWP.xaml.cs">
       <DependentUpon>GlobalPageWP.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,8 @@
   <ItemGroup>
     <Content Include="Assets\channelsAppBar.png" />
     <Content Include="Assets\channelsDarkIcon.png" />
+    <Content Include="Assets\followersIcon.png" />
+    <Content Include="Assets\liveViewersIcon.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
@@ -199,6 +204,10 @@
     <Page Include="FirstLaunchInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GameStreamsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GlobalPageWP.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -53,7 +53,7 @@
     		</PivotItem>
     		<PivotItem Header="top games">
     			<Grid>
-    				<GridView x:Name="topGamesGridView" ItemTemplate="{StaticResource GameItemPhoneTemplate}" Loaded="topGamesGridView_Loaded" Visibility="Collapsed" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center"/>
+    				<GridView x:Name="topGamesGridView" ItemTemplate="{StaticResource GameItemPhoneTemplate}" Loaded="topGamesGridView_Loaded" Visibility="Collapsed" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" ItemClick="topGamesGridView_ItemClick"/>
     			</Grid>
     		</PivotItem>
     	</Pivot>

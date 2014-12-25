@@ -330,5 +330,16 @@ namespace TwixelApp
         {
             topGamesGridView.ItemsSource = topGamesCollection;
         }
+
+        private void topGamesGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (streamDoneLoading)
+            {
+                List<object> parameters = new List<object>();
+                GameGridViewBinding gameItem = ((GameGridViewBinding)e.ClickedItem);
+                parameters.Add(gameItem.game);
+                Frame.Navigate(typeof(GameStreamsPage), parameters);
+            }
+        }
     }
 }
