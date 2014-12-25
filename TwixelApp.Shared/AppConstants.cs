@@ -7,6 +7,8 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using TwixelApp;
 using Windows.UI.Popups;
+using Windows.Storage;
+using Windows.Networking.Connectivity;
 
 namespace TwixelApp.Constants
 {
@@ -17,6 +19,9 @@ namespace TwixelApp.Constants
         public static List<Emote> emotes = new List<Emote>();
         public static List<SubscriberEmote> subscriberEmotes = new List<SubscriberEmote>();
         public static Dictionary<long, string> sets = new Dictionary<long, string>();
+        public static Quality wifiQuality;
+        public static Quality cellularQuality;
+        public static Quality preferredQuality;
 
         public enum Quality
         {
@@ -48,6 +53,53 @@ namespace TwixelApp.Constants
             else
             {
                 return "Unknown status code";
+            }
+        }
+
+        /// <summary>
+        /// Tries to create a file. If the file is there it just returns it.
+        /// If it is not there it creates the file and returns it.
+        /// </summary>
+        /// <param name="fileName">Desired file name</param>
+        /// <param name="folder">StorageFolder the file goes in</param>
+        /// <returns>A file</returns>
+        public static async Task<StorageFile> TryGetFile(string fileName, StorageFolder folder)
+        {
+            StorageFile file;
+#if WINDOWS_PHONE_APP
+            file = await AppConstants.TryGetItemAsync(folder, fileName);
+#else
+            file = await folder.TryGetItemAsync(fileName) as StorageFile;
+#endif
+
+            if (file != null)
+            {
+                return file;
+            }
+            else
+            {
+                file = await folder.CreateFileAsync(fileName);
+                return file;
+            }
+        }
+
+        public static async Task OverwriteFile(StorageFile file, string data)
+        {
+            await FileIO.WriteTextAsync(file, data);
+        }
+
+        public static async Task<StorageFile> TryGetItemAsync(StorageFolder folder, string fileName)
+        {
+            StorageFile file;
+
+            try
+            {
+                file = await folder.GetItemAsync(fileName) as StorageFile;
+                return file;
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -113,74 +165,198 @@ namespace TwixelApp.Constants
 
         public static void PlayPreferredQuality(Dictionary<AppConstants.Quality, Uri> qualities, AppConstants.Quality q, StreamerObject streamerObject)
         {
-            bool startedStream = false;
-            q = AppConstants.Quality.Source;
-
-            foreach (KeyValuePair<AppConstants.Quality, Uri> quality in qualities)
+            if (q == Quality.Source)
             {
-                if (quality.Key == q)
+                if (qualities.ContainsKey(Quality.Source))
                 {
-                    streamerObject.SetStreamUrl(quality.Value);
-                    streamerObject.StartStream();
-                    startedStream = true;
-                    break;
+                    streamerObject.SetStreamUrl(qualities[Quality.Source]);
+                }
+                else if (qualities.ContainsKey(Quality.High))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.High]);
+                }
+                else if (qualities.ContainsKey(Quality.Medium))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Medium]);
+                }
+                else if (qualities.ContainsKey(Quality.Low))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Low]);
+                }
+                else if (qualities.ContainsKey(Quality.Mobile))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Mobile]);
+                }
+                else if (qualities.ContainsKey(Quality.Chunked))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Chunked]);
+                }
+            }
+            else if (q == Quality.High)
+            {
+                if (qualities.ContainsKey(Quality.High))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.High]);
+                }
+                else if (qualities.ContainsKey(Quality.Medium))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Medium]);
+                }
+                else if (qualities.ContainsKey(Quality.Low))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Low]);
+                }
+                else if (qualities.ContainsKey(Quality.Mobile))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Mobile]);
+                }
+                else if (qualities.ContainsKey(Quality.Chunked))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Chunked]);
+                }
+                else if (qualities.ContainsKey(Quality.Source))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Source]);
+                }
+            }
+            else if (q == Quality.Medium)
+            {
+                if (qualities.ContainsKey(Quality.Medium))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Medium]);
+                }
+                else if (qualities.ContainsKey(Quality.Low))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Low]);
+                }
+                else if (qualities.ContainsKey(Quality.Mobile))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Mobile]);
+                }
+                else if (qualities.ContainsKey(Quality.Chunked))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Chunked]);
+                }
+                else if (qualities.ContainsKey(Quality.High))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.High]);
+                }
+                else if (qualities.ContainsKey(Quality.Source))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Source]);
+                }
+            }
+            else if (q == Quality.Low)
+            {
+                if (qualities.ContainsKey(Quality.Low))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Low]);
+                }
+                else if (qualities.ContainsKey(Quality.Mobile))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Mobile]);
+                }
+                else if (qualities.ContainsKey(Quality.Chunked))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Chunked]);
+                }
+                else if (qualities.ContainsKey(Quality.Medium))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Medium]);
+                }
+                else if (qualities.ContainsKey(Quality.High))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.High]);
+                }
+                else if (qualities.ContainsKey(Quality.Source))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Source]);
+                }
+            }
+            else if (q == Quality.Mobile)
+            {
+                if (qualities.ContainsKey(Quality.Mobile))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Mobile]);
+                }
+                else if (qualities.ContainsKey(Quality.Chunked))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Chunked]);
+                }
+                else if (qualities.ContainsKey(Quality.Low))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Low]);
+                }
+                else if (qualities.ContainsKey(Quality.Medium))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Medium]);
+                }
+                else if (qualities.ContainsKey(Quality.High))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.High]);
+                }
+                else if (qualities.ContainsKey(Quality.Source))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Source]);
+                }
+            }
+            else if (q == Quality.Chunked)
+            {
+                if (qualities.ContainsKey(Quality.Chunked))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Chunked]);
+                }
+                else if (qualities.ContainsKey(Quality.Mobile))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Mobile]);
+                }
+                else if (qualities.ContainsKey(Quality.Low))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Low]);
+                }
+                else if (qualities.ContainsKey(Quality.Medium))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Medium]);
+                }
+                else if (qualities.ContainsKey(Quality.High))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.High]);
+                }
+                else if (qualities.ContainsKey(Quality.Source))
+                {
+                    streamerObject.SetStreamUrl(qualities[Quality.Source]);
                 }
             }
 
-            if (!startedStream)
-            {
-                foreach (KeyValuePair<AppConstants.Quality, Uri> quality in qualities)
-                {
-                    if (quality.Key == AppConstants.Quality.Chunked)
-                    {
-                        streamerObject.SetStreamUrl(quality.Value);
-                        streamerObject.StartStream();
-                        startedStream = true;
-                        break;
-                    }
-                }
-            }
+            streamerObject.StartStream();
+        }
 
-            if (!startedStream)
+        public static bool OnWifi()
+        {
+            ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            if (connectionProfile.IsWlanConnectionProfile)
             {
-                foreach (KeyValuePair<AppConstants.Quality, Uri> quality in qualities)
-                {
-                    if (quality.Key == AppConstants.Quality.Source)
-                    {
-                        streamerObject.SetStreamUrl(quality.Value);
-                        streamerObject.StartStream();
-                        startedStream = true;
-                        break;
-                    }
-                    if (quality.Key == AppConstants.Quality.High)
-                    {
-                        streamerObject.SetStreamUrl(quality.Value);
-                        streamerObject.StartStream();
-                        startedStream = true;
-                        break;
-                    }
-                    else if (quality.Key == AppConstants.Quality.Medium)
-                    {
-                        streamerObject.SetStreamUrl(quality.Value);
-                        streamerObject.StartStream();
-                        startedStream = true;
-                        break;
-                    }
-                    else if (quality.Key == AppConstants.Quality.Low)
-                    {
-                        streamerObject.SetStreamUrl(quality.Value);
-                        streamerObject.StartStream();
-                        startedStream = true;
-                        break;
-                    }
-                    else if (quality.Key == AppConstants.Quality.Mobile)
-                    {
-                        streamerObject.SetStreamUrl(quality.Value);
-                        streamerObject.StartStream();
-                        startedStream = true;
-                        break;
-                    }
-                }
+                return true;
+            }
+            else if (connectionProfile.IsWwanConnectionProfile)
+            {
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void DeterminePreferredQuality()
+        {
+            if (OnWifi())
+            {
+                preferredQuality = wifiQuality;
+            }
+            else
+            {
+                preferredQuality = cellularQuality;
             }
         }
     }

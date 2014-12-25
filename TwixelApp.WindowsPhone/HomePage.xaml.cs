@@ -42,9 +42,10 @@ namespace TwixelApp
 
         void Current_Resuming(object sender, object e)
         {
+            AppConstants.DeterminePreferredQuality();
             if (videoPlaying)
             {
-                AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
+                AppConstants.PlayPreferredQuality(qualities, AppConstants.preferredQuality, streamerObject);
             }
         }
 
@@ -55,6 +56,8 @@ namespace TwixelApp
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            AppConstants.DeterminePreferredQuality();
+
             topGamesCollection = new ObservableCollection<GameGridViewBinding>();
             justFetchedTopGames = new List<Game>();
             justFetchedTopGames = await AppConstants.twixel.RetrieveTopGames(10, false);
@@ -92,7 +95,7 @@ namespace TwixelApp
                     {
                         streamerObject.SetTrackTitle(featuredStreams[selectedStreamIndex].stream.channel.displayName, featuredDescriptionTextBlock.Text);
                         streamerObject.SetThumbnail(featuredStreams[selectedStreamIndex].stream.channel.logo.urlString);
-                        AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
+                        AppConstants.PlayPreferredQuality(qualities, AppConstants.preferredQuality, streamerObject);
                         videoPlaying = true;
                     }
                 }
@@ -158,7 +161,7 @@ namespace TwixelApp
                 }
                 else
                 {
-                    AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
+                    AppConstants.PlayPreferredQuality(qualities, AppConstants.preferredQuality, streamerObject);
                     videoPlaying = true;
                     ((SymbolIcon)pausePlayButton.Icon).Symbol = Symbol.Pause;
                 }
@@ -225,7 +228,7 @@ namespace TwixelApp
             {
                 streamerObject.SetTrackTitle(featuredStreams[selectedStreamIndex].stream.channel.displayName, featuredDescriptionTextBlock.Text);
                 streamerObject.SetThumbnail(featuredStreams[selectedStreamIndex].stream.channel.logo.urlString);
-                AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
+                AppConstants.PlayPreferredQuality(qualities, AppConstants.preferredQuality, streamerObject);
             }
         }
 
@@ -280,7 +283,7 @@ namespace TwixelApp
             {
                 streamerObject.SetTrackTitle(featuredStreams[selectedStreamIndex].stream.channel.displayName, featuredDescriptionTextBlock.Text);
                 streamerObject.SetThumbnail(featuredStreams[selectedStreamIndex].stream.channel.logo.urlString);
-                AppConstants.PlayPreferredQuality(qualities, AppConstants.Quality.Source, streamerObject);
+                AppConstants.PlayPreferredQuality(qualities, AppConstants.preferredQuality, streamerObject);
             }
         }
 

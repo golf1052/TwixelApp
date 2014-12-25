@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using TwixelAPI;
 using TwixelApp.Constants;
@@ -77,7 +78,14 @@ namespace TwixelApp
             }
 
             StorageFolder roamingFolder = ApplicationData.Current.RoamingFolder;
+            loadingText.Text = "looking for settings";
+            await LoadQualitySettings(roamingFolder);
             loadingText.Text = "looking for users data";
+            await LoadUserData(roamingFolder);
+        }
+
+        async Task LoadUserData(StorageFolder roamingFolder)
+        {
             try
             {
                 StorageFile usersFile = await roamingFolder.GetFileAsync("usersFile.json");
@@ -113,6 +121,81 @@ namespace TwixelApp
             {
                 loadingText.Text = "users data not found";
                 Frame.Navigate(typeof(FirstLaunchInfo));
+            }
+        }
+
+        async Task LoadQualitySettings(StorageFolder roamingFolder)
+        {
+            StorageFile wifiQualityFile = await AppConstants.TryGetFile("wifiFile.json", roamingFolder);
+            string wifiQuality = await FileIO.ReadTextAsync(wifiQualityFile);
+            if (wifiQuality == "")
+            {
+                wifiQuality = "source";
+                AppConstants.wifiQuality = AppConstants.Quality.Source;
+                await AppConstants.OverwriteFile(wifiQualityFile, wifiQuality);
+            }
+            else
+            {
+                if (wifiQuality == "source")
+                {
+                    AppConstants.wifiQuality = AppConstants.Quality.Source;
+                }
+                else if (wifiQuality == "high")
+                {
+                    AppConstants.wifiQuality = AppConstants.Quality.High;
+                }
+                else if (wifiQuality == "medium")
+                {
+                    AppConstants.wifiQuality = AppConstants.Quality.Medium;
+                }
+                else if (wifiQuality == "low")
+                {
+                    AppConstants.wifiQuality = AppConstants.Quality.Low;
+                }
+                else if (wifiQuality == "mobile")
+                {
+                    AppConstants.wifiQuality = AppConstants.Quality.Mobile;
+                }
+                else
+                {
+                    AppConstants.wifiQuality = AppConstants.Quality.Source;
+                }
+            }
+
+            StorageFile cellularQualityFile = await AppConstants.TryGetFile("cellularFile.json", roamingFolder);
+            string cellularQuality = await FileIO.ReadTextAsync(cellularQualityFile);
+            if (cellularQuality == "")
+            {
+                cellularQuality = "mobile";
+                AppConstants.cellularQuality = AppConstants.Quality.Mobile;
+                await AppConstants.OverwriteFile(cellularQualityFile, cellularQuality);
+            }
+            else
+            {
+                if (cellularQuality == "source")
+                {
+                    AppConstants.cellularQuality = AppConstants.Quality.Source;
+                }
+                else if (cellularQuality == "high")
+                {
+                    AppConstants.cellularQuality = AppConstants.Quality.High;
+                }
+                else if (cellularQuality == "medium")
+                {
+                    AppConstants.cellularQuality = AppConstants.Quality.Medium;
+                }
+                else if (cellularQuality == "low")
+                {
+                    AppConstants.cellularQuality = AppConstants.Quality.Low;
+                }
+                else if (cellularQuality == "mobile")
+                {
+                    AppConstants.cellularQuality = AppConstants.Quality.Mobile;
+                }
+                else
+                {
+                    AppConstants.cellularQuality = AppConstants.Quality.Mobile;
+                }
             }
         }
     }
