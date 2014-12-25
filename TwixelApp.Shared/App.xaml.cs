@@ -9,6 +9,8 @@ using Windows.UI.ApplicationSettings;
 #endif
 using TwixelAPI;
 using TwixelApp.Constants;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Media;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -68,7 +70,7 @@ namespace TwixelApp
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 
 #if DEBUG
@@ -80,6 +82,13 @@ namespace TwixelApp
 
             Frame rootFrame = Window.Current.Content as Frame;
             AppConstants.twixel = twixel;
+#if WINDOWS_PHONE_APP
+            StatusBar statusBar = StatusBar.GetForCurrentView();
+            statusBar.BackgroundColor = Windows.UI.Colors.CornflowerBlue;
+            statusBar.BackgroundOpacity = 1;
+            statusBar.ProgressIndicator.Text = "Twixel";
+            await statusBar.ProgressIndicator.ShowAsync();
+#endif
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

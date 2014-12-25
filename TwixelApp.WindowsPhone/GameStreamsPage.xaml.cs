@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using TwixelAPI;
 using TwixelAPI.Constants;
 using TwixelApp.Constants;
+using Windows.Phone.UI.Input;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -24,6 +26,22 @@ namespace TwixelApp
         public GameStreamsPage()
         {
             this.InitializeComponent();
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            Frame frame = Window.Current.Content as Frame;
+            if (frame == null)
+            {
+                return;
+            }
+
+            if (frame.CanGoBack)
+            {
+                frame.GoBack();
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -82,16 +100,32 @@ namespace TwixelApp
             gameStreamsView.ItemsSource = streamsCollection;
         }
 
-        private void gameStreamsView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void gameStreamsView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //loadedStream = true;
-            //GameStreamsGridViewBinding streamItem = (GameStreamsGridViewBinding)e.ClickedItem;
+            loadedStream = true;
+            GameStreamsGridViewBinding streamItem = (GameStreamsGridViewBinding)e.ClickedItem;
 
-            //List<object> parameters = new List<object>();
-            //parameters.Add(streamItem.stream);
-            //Dictionary<AppConstants.Quality, Uri> qualities = await AppConstants.GetQualities(streamItem.stream.channel.name);
-            //parameters.Add(qualities);
-            //Frame.Navigate(typeof(StreamPage), parameters);
+            List<object> parameters = new List<object>();
+            parameters.Add(streamItem.stream);
+            Dictionary<AppConstants.Quality, Uri> qualities = await AppConstants.GetQualities(streamItem.stream.channel.name);
+            parameters.Add(qualities);
+            Frame.Navigate(typeof(StreamPage), parameters);
+        }
+
+        private async void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double width = e.NewSize.Width;
+            double height = e.NewSize.Height;
+
+            if (width < height)
+            {
+                // Portrait
+                await StatusBar.GetForCurrentView().ShowAsync();
+            }
+            else
+            {
+                await StatusBar.GetForCurrentView().HideAsync();
+            }
         }
     }
 }

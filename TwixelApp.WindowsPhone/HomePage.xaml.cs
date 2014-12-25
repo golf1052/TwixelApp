@@ -7,6 +7,7 @@ using TwixelAPI.Constants;
 using TwixelApp.Constants;
 using Windows.Graphics.Display;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -234,11 +235,11 @@ namespace TwixelApp
 
         private async void streamStreamButton_Click(object sender, RoutedEventArgs e)
         {
-            //List<object> parameters = new List<object>();
-            //parameters.Add(featuredStreams[selectedStreamIndex].stream);
-            //qualities = await AppConstants.GetQualities(featuredStreams[selectedStreamIndex].stream.channel.name);
-            //parameters.Add(qualities);
-            //Frame.Navigate(typeof(StreamPage), parameters);
+            List<object> parameters = new List<object>();
+            parameters.Add(featuredStreams[selectedStreamIndex].stream);
+            qualities = await AppConstants.GetQualities(featuredStreams[selectedStreamIndex].stream.channel.name);
+            parameters.Add(qualities);
+            Frame.Navigate(typeof(StreamPage), parameters);
         }
 
         private void pausePlayButton_Click(object sender, RoutedEventArgs e)
@@ -297,7 +298,7 @@ namespace TwixelApp
             streamerObject.mediaElement_BufferingProgressChanged(sender, e);
         }
 
-        private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double phoneWidth = featuredPivotItem.ActualWidth;
             double phoneHeight = featuredPivotItem.ActualHeight;
@@ -307,6 +308,7 @@ namespace TwixelApp
                 // Portrait
                 featuredStreamPlayer.Width = phoneWidth - 2;
                 featuredStreamPlayer.Height = featuredStreamPlayer.Width / ratio;
+                await StatusBar.GetForCurrentView().ShowAsync();
             }
             else
             {
@@ -323,6 +325,7 @@ namespace TwixelApp
                 }
                 featuredStreamPlayer.Height = phoneHeight - controlHeight - descriptionHeight;
                 featuredStreamPlayer.Width = featuredStreamPlayer.Height * ratio;
+                await StatusBar.GetForCurrentView().HideAsync();
             }
         }
 

@@ -29,7 +29,7 @@
     							<RowDefinition Height="Auto"/>
     						</Grid.RowDefinitions>
     						<TextBlock x:Name="featuredGameTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-    						<MediaElement x:Name="featuredStreamPlayer" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Grid.Row="1" Width="360" Height="202.5" Loaded="featuredStreamPlayer_Loaded" CurrentStateChanged="featuredStreamPlayer_CurrentStateChanged" MediaEnded="featuredStreamPlayer_MediaEnded" MediaFailed="featuredStreamPlayer_MediaFailed" MediaOpened="featuredStreamPlayer_MediaOpened" BufferingProgressChanged="featuredStreamPlayer_BufferingProgressChanged"/>
+    						<MediaElement x:Name="featuredStreamPlayer" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Grid.Row="1" Width="360" Height="202.5" Loaded="featuredStreamPlayer_Loaded" CurrentStateChanged="featuredStreamPlayer_CurrentStateChanged" MediaEnded="featuredStreamPlayer_MediaEnded" MediaFailed="featuredStreamPlayer_MediaFailed" MediaOpened="featuredStreamPlayer_MediaOpened" BufferingProgressChanged="featuredStreamPlayer_BufferingProgressChanged" AudioCategory="BackgroundCapableMedia"/>
     						<TextBlock x:Name="featuredDescriptionTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.Row="2"/>
     						<TextBlock x:Name="streamOfflineTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="stream offline" VerticalAlignment="Center" Grid.Row="1" FontSize="48" Visibility="Collapsed">
     							<TextBlock.Foreground>

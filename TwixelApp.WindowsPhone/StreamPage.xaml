@@ -9,6 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <TextBlock x:Name="streamOfflineBlock" Visibility="Collapsed"/>
+        <ComboBox x:Name="streamQualities" Visibility="Collapsed"/>
+        <MediaElement x:Name="streamPlayer" BufferingProgressChanged="streamPlayer_BufferingProgressChanged" MediaEnded="streamPlayer_MediaEnded" MediaFailed="streamPlayer_MediaFailed" CurrentStateChanged="streamPlayer_CurrentStateChanged" MediaOpened="streamPlayer_MediaOpened" AudioCategory="BackgroundCapableMedia"/>
     </Grid>
 </Page>

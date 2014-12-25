@@ -135,6 +135,9 @@
     <Compile Include="Scope Pages\UserSubscriptionsScope.xaml.cs">
       <DependentUpon>UserSubscriptionsScope.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StreamPage.xaml.cs">
+      <DependentUpon>StreamPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -264,6 +267,10 @@
     <Page Include="Scope Pages\UserSubscriptionsScope.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StreamPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

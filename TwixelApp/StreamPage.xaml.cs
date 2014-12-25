@@ -18,7 +18,7 @@ namespace TwixelApp
     /// </summary>
     public sealed partial class StreamPage : Page
     {
-        TwixelAPI.Stream stream;
+        Stream stream;
         Dictionary<AppConstants.Quality, Uri> qualities;
         bool justLaunchedPage = true;
         bool videoPlaying = false;
