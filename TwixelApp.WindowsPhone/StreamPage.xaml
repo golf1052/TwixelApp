@@ -7,10 +7,55 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Page.Resources>
+		<Flyout x:Key="VolumeFlyout">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<Slider x:Name="volumeSlider" VerticalAlignment="Top" Margin="10,0" Value="100"/>
+				<Button x:Name="muteButton" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Background="{x:Null}" BorderThickness="0" MinWidth="75">
+					<SymbolIcon Symbol="Volume"/>
+				</Button>
+			</Grid>
+		</Flyout>
+	</Page.Resources>
 
     <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="Auto"/>
+    		<RowDefinition/>
+    		<RowDefinition Height="Auto"/>
+    	</Grid.RowDefinitions>
+        <Grid x:Name="topBar" Margin="0,10">
+        	<Grid.ColumnDefinitions>
+        		<ColumnDefinition/>
+        		<ColumnDefinition Width="Auto"/>
+        	</Grid.ColumnDefinitions>
+        	<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
+        		<TextBlock x:Name="streamDescription" HorizontalAlignment="Left" Text="stream description" VerticalAlignment="Top" TextTrimming="CharacterEllipsis"/>
+        		<TextBlock x:Name="streamerName" Text="streamer name" TextTrimming="CharacterEllipsis"/>
+        		<TextBlock x:Name="streamGame" Text="game" TextTrimming="CharacterEllipsis"/>
+        	</StackPanel>
+        	<StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Margin="0,0,5,0">
+        		<Image Stretch="None" Source="Assets/liveViewersIcon.png"/>
+        		<TextBlock x:Name="streamViewers" TextWrapping="Wrap" Text="1052"/>
+        	</StackPanel>
+        </Grid>
         <TextBlock x:Name="streamOfflineBlock" Visibility="Collapsed"/>
-        <ComboBox x:Name="streamQualities" Visibility="Collapsed"/>
-        <MediaElement x:Name="streamPlayer" BufferingProgressChanged="streamPlayer_BufferingProgressChanged" MediaEnded="streamPlayer_MediaEnded" MediaFailed="streamPlayer_MediaFailed" CurrentStateChanged="streamPlayer_CurrentStateChanged" MediaOpened="streamPlayer_MediaOpened" AudioCategory="BackgroundCapableMedia"/>
+        <MediaElement x:Name="streamPlayer" BufferingProgressChanged="streamPlayer_BufferingProgressChanged" MediaEnded="streamPlayer_MediaEnded" MediaFailed="streamPlayer_MediaFailed" CurrentStateChanged="streamPlayer_CurrentStateChanged" MediaOpened="streamPlayer_MediaOpened" AudioCategory="BackgroundCapableMedia" Grid.Row="1" Tapped="streamPlayer_Tapped"/>
+        <StackPanel x:Name="bottomBar" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+        	<AppBarButton x:Name="playPauseButton" HorizontalAlignment="Stretch" Icon="Pause" Label="Pause" VerticalAlignment="Stretch" IsCompact="True" Click="playPauseButton_Click"/>
+        	<AppBarButton x:Name="channelButton" HorizontalAlignment="Stretch" Label="Channel" VerticalAlignment="Stretch" IsCompact="True" Click="channelButton_Click">
+        		<AppBarButton.Icon>
+        			<BitmapIcon UriSource="Assets/channelsAppBar.png"/>
+        		</AppBarButton.Icon>
+        	</AppBarButton>
+        	<AppBarButton x:Name="followButton" HorizontalAlignment="Stretch" Icon="Add" Label="Follow" VerticalAlignment="Stretch" IsCompact="True" Click="followButton_Click" IsEnabled="False"/>
+        	<ComboBox x:Name="streamQualities" Width="120" PlaceholderText="" SelectionChanged="streamQualities_SelectionChanged"/>
+        	<AppBarButton x:Name="volumeButton" HorizontalAlignment="Stretch" Icon="Volume" Label="appbarbutton" VerticalAlignment="Stretch" IsCompact="True" Flyout="{StaticResource VolumeFlyout}"/>
+        	<AppBarButton x:Name="chatButton" HorizontalAlignment="Stretch" Icon="Message" Label="appbarbutton" VerticalAlignment="Stretch" IsCompact="True"/>
+        </StackPanel>
     </Grid>
 </Page>

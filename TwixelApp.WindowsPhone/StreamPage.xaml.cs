@@ -28,11 +28,13 @@ namespace TwixelApp
 
         StreamerObject streamerObject;
         //ChatWindow chatWindow;
-        //VolumeFlyout volumeFlyout;
+        VolumeFlyout volumeFlyout;
 
         double screenWidth = 0;
         double screenHeight = 0;
         bool chatOpen = true;
+
+        bool fullScreen = false;
 
         User user;
         List<Channel> channelsFollowed;
@@ -150,10 +152,10 @@ namespace TwixelApp
                 }
             }
 
-            //streamDescription.Text = stream.channel.status;
-            //streamerName.Text = stream.channel.displayName;
-            //streamGame.Text = stream.game;
-            //streamViewers.Text = stream.viewers.ToString();
+            streamDescription.Text = stream.channel.status;
+            streamerName.Text = stream.channel.displayName;
+            streamGame.Text = stream.game;
+            streamViewers.Text = stream.viewers.ToString();
 
             streamerObject.OnNavigatedTo(stream.channel.displayName, stream.channel.status);
 
@@ -183,7 +185,7 @@ namespace TwixelApp
             }
 
             justLaunchedPage = false;
-            //volumeFlyout = new VolumeFlyout(volumeSlider, muteButton, volumeButton, streamPlayer);
+            volumeFlyout = new VolumeFlyout(volumeSlider, muteButton, volumeButton, streamPlayer);
             //chatWindow = new ChatWindow(Dispatcher, stream.channel.name, chatGrid, chatView, chatBox, chatSendButton);
             //await chatWindow.LoadChatWindow();
             #endregion
@@ -273,13 +275,13 @@ namespace TwixelApp
             {
                 streamerObject.Stop();
                 videoPlaying = false;
-                //playPauseButton.Label = "Play";
-                //((SymbolIcon)playPauseButton.Icon).Symbol = Symbol.Play;
+                playPauseButton.Label = "Play";
+                ((SymbolIcon)playPauseButton.Icon).Symbol = Symbol.Play;
             }
             else
             {
-                //playPauseButton.Label = "Pause";
-                //((SymbolIcon)playPauseButton.Icon).Symbol = Symbol.Pause;
+                playPauseButton.Label = "Pause";
+                ((SymbolIcon)playPauseButton.Icon).Symbol = Symbol.Pause;
                 PlayReloadStream();
             }
         }
@@ -362,6 +364,82 @@ namespace TwixelApp
         private void streamPlayer_MediaOpened(object sender, RoutedEventArgs e)
         {
             streamerObject.mediaElement_MediaOpened(sender, e);
+        }
+
+        private async void streamPlayer_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (fullScreen)
+            {
+                topBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                bottomBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                fullScreen = false;
+            }
+            else
+            {
+                topBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                bottomBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                fullScreen = true;
+            }
+
+            qualities = await AppConstants.GetQualities(stream.channel.name);
+
+            if (CheckOffline())
+            {
+                streamOffline = true;
+            }
+
+            if (!streamOffline)
+            {
+                stream = await AppConstants.twixel.RetrieveStream(stream.channel.name);
+                if (stream != null)
+                {
+                    streamDescription.Text = stream.channel.status;
+                    streamerName.Text = stream.channel.displayName;
+                    streamGame.Text = stream.game;
+                    streamViewers.Text = stream.viewers.ToString();
+                }
+            }
+        }
+
+        private void streamQualities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (justLaunchedPage == false)
+            {
+                if (videoPlaying)
+                {
+                    streamerObject.Stop();
+
+                    PlayStream();
+                }
+            }
+        }
+
+        private void playPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            PlayPauseAction();
+        }
+
+        private void channelButton_Click(object sender, RoutedEventArgs e)
+        {
+            //List<object> parameters = new List<object>();
+            //parameters.Add(stream.channel);
+            //Frame.Navigate(typeof(ChannelPage), parameters);
+        }
+
+        private async void followButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (followButton.Label == "Follow")
+            {
+                await user.FollowChannel(stream.channel.name);
+                followButton.Label = "Unfollow";
+                ((SymbolIcon)followButton.Icon).Symbol = Symbol.Clear;
+            }
+            else
+            {
+                await user.UnfollowChannel(stream.channel.name);
+                followButton.Label = "Follow";
+                ((SymbolIcon)followButton.Icon).Symbol = Symbol.Add;
+            }
         }
     }
 }
