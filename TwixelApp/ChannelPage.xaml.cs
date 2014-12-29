@@ -96,7 +96,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not pull channel videos.\nError Code: " + AppConstants.twixel.ErrorString);
+                await AppConstants.ShowError("Could not pull channel videos.\nError Code: " + AppConstants.twixel.ErrorString);
             }
         }
 

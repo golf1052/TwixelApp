@@ -71,8 +71,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not load games.\nError Code: " + AppConstants.twixel.ErrorString);
-                Frame.GoBack();
+                await AppConstants.ShowErrorAndGoBack("Could not load games.\nError Code: " + AppConstants.twixel.ErrorString, Frame);
             }
         }
 

@@ -164,35 +164,76 @@
 				</Grid>
 			</Grid>
 		</DataTemplate>
-		<DataTemplate x:Key="StreamPhoneTemplate">
-			<Grid Width="164" Margin="2">
+        <DataTemplate x:Key="StreamPhoneTemplate">
+            <Grid Width="164" Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="3"/>
+                </Grid.RowDefinitions>
+                <Border BorderThickness="2" Grid.RowSpan="4" Margin="0" Width="164">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+                    </Border.BorderBrush>
+                </Border>
+                <Grid VerticalAlignment="Top" Margin="5" Width="144">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="streamerNameBlock" HorizontalAlignment="Left" Margin="0" Text="{Binding Name}" VerticalAlignment="Top" TextTrimming="CharacterEllipsis"/>
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Margin="0" Grid.Column="2">
+                        <Image Width="14" Source="Assets/liveViewersIcon.png" Height="14"/>
+                        <TextBlock x:Name="streamViewers" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Viewers}" VerticalAlignment="Top" Margin="2,0,0,0"/>
+                    </StackPanel>
+                </Grid>
+                <Image x:Name="streamPreviewImage" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="160" Margin="2,0" Grid.Row="1" Source="{Binding Image}"/>
+                <TextBlock x:Name="streamDescription" Margin="5,0" Grid.Row="2" Text="{Binding Description}" FontSize="10.667" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="VideoPhoneTemplate">
+        	<Grid Width="160">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="3"/>
 				</Grid.RowDefinitions>
-				<Border BorderThickness="2" Grid.RowSpan="4" Margin="0" Width="164">
+				<Border BorderThickness="1" Grid.RowSpan="2" Width="160">
 					<Border.BorderBrush>
 						<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
 					</Border.BorderBrush>
 				</Border>
-				<Grid VerticalAlignment="Top" Margin="5" Width="144">
+				<Image x:Name="videoPreviewImage" HorizontalAlignment="Left" Height="120" VerticalAlignment="Top" Width="160" Margin="0" Source="{Binding Image}"/>
+				<Grid VerticalAlignment="Top" Margin="5,5,5,0">
 					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition/>
-						<ColumnDefinition Width="5"/>
 						<ColumnDefinition Width="Auto"/>
 					</Grid.ColumnDefinitions>
-					<TextBlock x:Name="streamerNameBlock" HorizontalAlignment="Left" Margin="0" Text="{Binding Name}" VerticalAlignment="Top" TextTrimming="CharacterEllipsis"/>
-					<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Margin="0" Grid.Column="2">
-						<Image Width="14" Source="Assets/liveViewersIcon.png" Height="14"/>
-						<TextBlock x:Name="streamViewers" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Viewers}" VerticalAlignment="Top" Margin="2,0,0,0"/>
+					<Rectangle>
+						<Rectangle.Fill>
+							<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+						</Rectangle.Fill>
+					</Rectangle>
+					<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal" Margin="2">
+						<Image Height="12" Width="18" Source="Assets/viewersDarkIcon.png" VerticalAlignment="Center"/>
+						<TextBlock x:Name="videoViewers" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Viewers}" VerticalAlignment="Center" FontSize="10.667" Margin="2,0,0,0"/>
+					</StackPanel>
+					<Rectangle Grid.Column="2">
+						<Rectangle.Fill>
+							<SolidColorBrush Color="{StaticResource TwixelBlue}"/>
+						</Rectangle.Fill>
+					</Rectangle>
+					<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="2" Orientation="Horizontal" Margin="2">
+						<Image Height="14" Width="14" Source="Assets/clockDark.png"/>
+						<TextBlock x:Name="videoLengthBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Length}" VerticalAlignment="Center" FontSize="10.667" Margin="2,0,0,0"/>
 					</StackPanel>
 				</Grid>
-				<Image x:Name="streamPreviewImage" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="160" Margin="2,0" Grid.Row="1" Source="{Binding Image}"/>
-				<TextBlock x:Name="streamDescription" Margin="5,0" Grid.Row="2" Text="{Binding Description}" FontSize="10.667" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+				<TextBlock x:Name="videoTitle" Text="{Binding Title}" VerticalAlignment="Top" Grid.Row="1" Height="25" Margin="0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Padding="5" FontSize="10.667"/>
 			</Grid>
-		</DataTemplate>
-	</Application.Resources>
+        </DataTemplate>
+    </Application.Resources>
 
 </Application>

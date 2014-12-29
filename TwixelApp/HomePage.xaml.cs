@@ -115,7 +115,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not load top games.\nError Code: " + AppConstants.twixel.ErrorString);
+                await AppConstants.ShowError("Could not load top games.\nError Code: " + AppConstants.twixel.ErrorString);
             }
 
             featuredStreams = await AppConstants.twixel.RetrieveFeaturedStreams(5, false);
@@ -146,7 +146,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not load featured streams.\nError Code: " + AppConstants.twixel.ErrorString);
+                await AppConstants.ShowError("Could not load featured streams.\nError Code: " + AppConstants.twixel.ErrorString);
             }
         }
 

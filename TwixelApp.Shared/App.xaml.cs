@@ -11,6 +11,7 @@ using TwixelAPI;
 using TwixelApp.Constants;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media;
+using Windows.Storage;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -110,6 +111,8 @@ namespace TwixelApp
                 Window.Current.Content = rootFrame;
             }
 
+            ApplicationData.Current.DataChanged += Current_DataChanged;
+
             if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the first page,
@@ -124,6 +127,11 @@ namespace TwixelApp
             }
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        void Current_DataChanged(ApplicationData sender, object args)
+        {
+            System.Diagnostics.Debug.WriteLine("data changed");
         }
 
         /// <summary>

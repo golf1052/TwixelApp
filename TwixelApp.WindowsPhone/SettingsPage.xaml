@@ -1,0 +1,37 @@
+﻿<Page
+    x:Class="TwixelApp.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwixelApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Page.BottomAppBar>
+		<CommandBar>
+			<AppBarButton x:Name="saveButton" Icon="Save" Label="save" Click="saveButton_Click"/>
+		</CommandBar>
+	</Page.BottomAppBar>
+
+    <Grid>
+    	<StackPanel Margin="10,0">
+    		<TextBlock TextWrapping="Wrap" Text="Default WiFi Stream Quality" FontSize="24"/>
+    		<ComboBox x:Name="wifiComboBox">
+    			<ComboBoxItem Content="source"/>
+    			<ComboBoxItem Content="high"/>
+    			<ComboBoxItem Content="medium"/>
+    			<ComboBoxItem Content="low"/>
+    			<ComboBoxItem Content="mobile"/>
+    		</ComboBox>
+    		<TextBlock TextWrapping="Wrap" Text="Default Cellular Stream Quality" FontSize="24"/>
+    		<ComboBox x:Name="cellularComboBox" Height="57">
+    			<ComboBoxItem Content="source"/>
+    			<ComboBoxItem Content="high"/>
+    			<ComboBoxItem Content="medium"/>
+    			<ComboBoxItem Content="low"/>
+    			<ComboBoxItem Content="mobile"/>
+    		</ComboBox>
+    	</StackPanel>
+
+    </Grid>
+</Page>

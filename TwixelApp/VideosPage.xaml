@@ -60,7 +60,7 @@
     	<StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Margin="0,0,50,0">
     		<RadioButton x:Name="weekRadioButton" Content="Week" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,10,0" IsChecked="True" Checked="weekRadioButton_Checked"/>
     		<RadioButton x:Name="monthRadioButton" Content="Month" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,10,0" Checked="monthRadioButton_Checked"/>
-    		<RadioButton x:Name="allRadioButton" Content="All TIme" VerticalAlignment="Stretch" Margin="0" Checked="allRadioButton_Checked"/>
+    		<RadioButton x:Name="allRadioButton" Content="All Time" VerticalAlignment="Stretch" Margin="0" Checked="allRadioButton_Checked"/>
     	</StackPanel>
     	<GridView x:Name="videoGridView" Grid.Row="1" Margin="39,0,0,0" ItemTemplate="{StaticResource VideoTemplate}" ItemClick="videoGridView_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Loaded="videoGridView_Loaded"/>
 

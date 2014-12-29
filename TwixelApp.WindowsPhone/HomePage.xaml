@@ -8,7 +8,42 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="MainPage_SizeChanged">
 	<Page.Resources>
-	</Page.Resources>
+        <Flyout x:Key="SearchPhoneFlyout">
+            <Grid Margin="5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="searchBox" Margin="0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" PlaceholderText="search for stuff"/>
+                <Button x:Name="startSearchButton" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Column="1" BorderThickness="0" MinWidth="70">
+                    <SymbolIcon Symbol="Zoom"/>
+                </Button>
+                <ComboBox x:Name="searchComboBox" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="0">
+                    <ComboBoxItem Content="streams"/>
+                    <ComboBoxItem Content="games"/>
+                </ComboBox>
+            </Grid>
+        </Flyout>
+    </Page.Resources>
+	<Page.BottomAppBar>
+		<CommandBar>
+			<CommandBar.SecondaryCommands>
+				<AppBarButton x:Name="videosButton" Label="videos" Click="videosButton_Click"/>
+			</CommandBar.SecondaryCommands>
+			<AppBarButton x:Name="userButton" Icon="Contact" Label="Log In" Click="userButton_Click"/>
+			<AppBarButton x:Name="liveButton" Label="streams" Click="liveButton_Click">
+				<AppBarButton.Icon>
+					<BitmapIcon UriSource="Assets/channelsAppBar.png"/>
+				</AppBarButton.Icon>
+			</AppBarButton>
+			<AppBarButton x:Name="searchButton" Icon="Zoom" Label="search" Click="searchButton_Click" Flyout="{StaticResource SearchPhoneFlyout}" Loaded="searchButton_Loaded"/>
+			<AppBarButton x:Name="settingsButton" Icon="Setting" Label="settings" Click="settingsButton_Click"/>
+		</CommandBar>
+	</Page.BottomAppBar>
 
     <Grid>
     	<Pivot Title="">

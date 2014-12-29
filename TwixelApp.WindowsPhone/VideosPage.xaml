@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="TwixelApp.VideosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwixelApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Page.Resources>
+		<Flyout x:Key="SearchPhoneFlyout">
+			<Grid Margin="5,0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBox x:Name="searchBox" Margin="0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" PlaceholderText="search for stuff"/>
+				<Button x:Name="startSearchButton" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Column="1" BorderThickness="0" MinWidth="70">
+					<SymbolIcon Symbol="Zoom"/>
+				</Button>
+				<ComboBox x:Name="searchComboBox" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="0">
+					<ComboBoxItem Content="streams"/>
+					<ComboBoxItem Content="games"/>
+				</ComboBox>
+			</Grid>
+		</Flyout>
+	</Page.Resources>
+	<Page.BottomAppBar>
+		<CommandBar>
+			<AppBarButton x:Name="userButton" Icon="Contact" Label="Log In" Click="userButton_Click"/>
+			<AppBarButton x:Name="liveButton" Label="streams" Click="liveButton_Click">
+				<AppBarButton.Icon>
+					<BitmapIcon UriSource="Assets/channelsAppBar.png"/>
+				</AppBarButton.Icon>
+			</AppBarButton>
+			<AppBarButton x:Name="searchButton" Icon="Zoom" Label="search" Flyout="{StaticResource SearchPhoneFlyout}" Loaded="searchButton_Loaded"/>
+			<AppBarButton x:Name="settingsButton" Icon="Setting" Label="settings" Click="settingsButton_Click"/>
+		</CommandBar>
+	</Page.BottomAppBar>
+
+    <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="Auto"/>
+    		<RowDefinition/>
+    	</Grid.RowDefinitions>
+    	<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+    		<RadioButton x:Name="weekRadioButton" Content="Week" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="0" IsChecked="True" Margin="0,0,10,0" Checked="weekRadioButton_Checked"/>
+    		<RadioButton x:Name="monthRadioButton" Content="Month" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="0" Margin="0,0,10,0" Checked="monthRadioButton_Checked"/>
+    		<RadioButton x:Name="allRadioButton" Content="All Time" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="0" Checked="allRadioButton_Checked"/>
+    	</StackPanel>
+
+    	<GridView x:Name="videoGridView" HorizontalAlignment="Center" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemTemplate="{StaticResource VideoPhoneTemplate}" Loaded="videoGridView_Loaded" ItemClick="videoGridView_ItemClick"/>
+
+    </Grid>
+</Page>

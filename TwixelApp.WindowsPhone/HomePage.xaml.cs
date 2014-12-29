@@ -32,6 +32,7 @@ namespace TwixelApp
         StreamerObject streamerObject;
         bool streamIsOffline = false;
         bool streamDoneLoading = false;
+        SearchFlyout searchFlyout;
 
         public HomePage()
         {
@@ -58,6 +59,22 @@ namespace TwixelApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             AppConstants.DeterminePreferredQuality();
+            await AppConstants.SetText("Twixel");
+            if (AppConstants.ActiveUser != null)
+            {
+                if (AppConstants.ActiveUser.authorized)
+                {
+                    userButton.Content = AppConstants.ActiveUser.displayName;
+                }
+                else
+                {
+                    userButton.Content = "Log In";
+                }
+            }
+            else
+            {
+                userButton.Content = "Log In";
+            }
 
             topGamesCollection = new ObservableCollection<GameGridViewBinding>();
             justFetchedTopGames = new List<Game>();
@@ -72,7 +89,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not load top games.\nError Code: " + AppConstants.twixel.ErrorString);
+                await AppConstants.ShowError("Could not load top games.\nError Code: " + AppConstants.twixel.ErrorString);
             }
 
             featuredStreams = await AppConstants.twixel.RetrieveFeaturedStreams(5, false);
@@ -103,7 +120,7 @@ namespace TwixelApp
             }
             else
             {
-                AppConstants.ShowError("Could not load featured streams.\nError Code: " + AppConstants.twixel.ErrorString);
+                await AppConstants.ShowError("Could not load featured streams.\nError Code: " + AppConstants.twixel.ErrorString);
             }
         }
 
@@ -343,6 +360,45 @@ namespace TwixelApp
                 parameters.Add(gameItem.game);
                 Frame.Navigate(typeof(GameStreamsPage), parameters);
             }
+        }
+
+        private void videosButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(VideosPage));
+        }
+
+        private void userButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AppConstants.ActiveUser == null || !AppConstants.ActiveUser.authorized)
+            {
+                List<TwitchConstants.Scope> scopes = new List<TwitchConstants.Scope>();
+                List<object> param = new List<object>();
+                param.Add(scopes);
+                Frame.Navigate(typeof(UserReadScope), param);
+            }
+            else
+            {
+                //Frame.Navigate(typeof(UserPage));
+            }
+        }
+
+        private void liveButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void settingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
+        }
+
+        private void searchButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            searchFlyout = new SearchFlyout(searchBox, startSearchButton, searchComboBox, Frame);
         }
     }
 }

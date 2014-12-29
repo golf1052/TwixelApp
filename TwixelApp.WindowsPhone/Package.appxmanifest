@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="48f20738-9f37-4c93-8197-43349d461f6b" Publisher="CN=Sanders" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="48f20738-9f37-4c93-8197-43349d461f6b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="24796GStudios.Twixel" Publisher="CN=0BE05EAB-E1F1-4BF9-98E4-3A633884B5A7" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="4edc804d-1967-4966-aa05-88dcb6fad5a1" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Twixel</DisplayName>
     <PublisherDisplayName>golf1052</PublisherDisplayName>

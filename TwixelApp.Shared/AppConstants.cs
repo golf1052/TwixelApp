@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using TwixelAPI;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using TwixelApp;
-using Windows.UI.Popups;
-using Windows.Storage;
+using TwixelAPI;
 using Windows.Networking.Connectivity;
+using Windows.Storage;
+using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Controls;
 
 namespace TwixelApp.Constants
 {
@@ -33,9 +34,16 @@ namespace TwixelApp.Constants
             Chunked
         }
 
-        public static async void ShowError(string message)
+        public static async Task ShowError(string message)
         {
             MessageDialog messageDialog = new MessageDialog(message);
+            await messageDialog.ShowAsync();
+        }
+
+        public static async Task ShowErrorAndGoBack(string message, Frame Frame)
+        {
+            MessageDialog messageDialog = new MessageDialog(message);
+            messageDialog.Commands.Add(new UICommand("OK", new UICommandInvokedHandler((command) => { Frame.GoBack(); })));
             await messageDialog.ShowAsync();
         }
 
@@ -359,5 +367,31 @@ namespace TwixelApp.Constants
                 preferredQuality = cellularQuality;
             }
         }
+
+#if WINDOWS_PHONE_APP
+        public static async Task ShowStatusBar()
+        {
+            await StatusBar.GetForCurrentView().ShowAsync();
+        }
+
+        public static async Task HideStatusBar()
+        {
+            await StatusBar.GetForCurrentView().HideAsync();
+        }
+
+        public static async Task SetText(string text)
+        {
+            StatusBar statusBar = StatusBar.GetForCurrentView();
+            statusBar.ProgressIndicator.Text = text;
+            statusBar.ProgressIndicator.ProgressValue = 0;
+            await statusBar.ShowAsync();
+            await statusBar.ProgressIndicator.ShowAsync();
+        }
+
+        public static StatusBar GetStatusBar()
+        {
+            return StatusBar.GetForCurrentView();
+        }
+#endif
     }
 }
