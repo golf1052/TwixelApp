@@ -27,7 +27,10 @@ namespace TwixelApp
             List<Emote> emotes = new List<Emote>();
             foreach (KeyValuePair<string, JToken> emote in o)
             {
-                emotes.Add(new Emote((string)emote.Key, (string)emote.Value, null));
+                if (!string.IsNullOrEmpty((string)emote.Value))
+                {
+                    emotes.Add(new Emote((string)emote.Key, (string)emote.Value, null));
+                }
             }
             return emotes;
         }
