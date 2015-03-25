@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwixelApp", "TwixelApp\TwixelApp.csproj", "{4EED5C09-147C-41F1-9708-CF17C8F33580}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twixel", "..\Twixel\Twixel\Twixel.csproj", "{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TwixelApp", "TwixelApp", "{45C4212C-E482-4CA4-8080-E12623DA0FF8}"
 EndProject
@@ -62,20 +60,6 @@ Global
 		{4EED5C09-147C-41F1-9708-CF17C8F33580}.Release|x86.ActiveCfg = Release|x86
 		{4EED5C09-147C-41F1-9708-CF17C8F33580}.Release|x86.Build.0 = Release|x86
 		{4EED5C09-147C-41F1-9708-CF17C8F33580}.Release|x86.Deploy.0 = Release|x86
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|ARM.ActiveCfg = Release|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|x64.ActiveCfg = Release|Any CPU
-		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|x86.ActiveCfg = Release|Any CPU
 		{5DE6E08C-9C32-4029-A15A-B042ACB8449D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DE6E08C-9C32-4029-A15A-B042ACB8449D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DE6E08C-9C32-4029-A15A-B042ACB8449D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

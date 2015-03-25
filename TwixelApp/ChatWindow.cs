@@ -432,23 +432,19 @@ namespace TwixelApp
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (name == "jtv")
+                if (!connectedToChat)
                 {
-                    if (!connectedToChat)
-                    {
-                        connectedToChat = true;
-                        AddChatMessage("", "Connected to chat", false, false);
+                    connectedToChat = true;
+                    AddChatMessage("", "Connected to chat", false, false);
 
-                        if (AppConstants.ActiveUser != null)
+                    if (AppConstants.ActiveUser != null)
+                    {
+                        if (AppConstants.ActiveUser.authorized)
                         {
-                            if (AppConstants.ActiveUser.authorized)
-                            {
-                                chatBox.IsEnabled = true;
-                                chatSendButton.IsEnabled = true;
-                            }
+                            chatBox.IsEnabled = true;
+                            chatSendButton.IsEnabled = true;
                         }
                     }
-                    //Debug.WriteLine("JTV SAID: " + chatMessage);
                 }
 
                 if (name != "" && chatMessage != "")
