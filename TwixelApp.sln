@@ -11,6 +11,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TwixelApp.Shared", "TwixelA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwixelApp.WindowsPhone", "TwixelApp.WindowsPhone\TwixelApp.WindowsPhone.csproj", "{5DE6E08C-9C32-4029-A15A-B042ACB8449D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twixel", "..\Twixel\Twixel\Twixel.csproj", "{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TwixelApp.Shared\TwixelApp.Shared.projitems*{73ee81c1-7a6d-4af8-b8c6-81a197edbe73}*SharedItemsImports = 13
@@ -86,6 +88,20 @@ Global
 		{5DE6E08C-9C32-4029-A15A-B042ACB8449D}.Release|x86.ActiveCfg = Release|x86
 		{5DE6E08C-9C32-4029-A15A-B042ACB8449D}.Release|x86.Build.0 = Release|x86
 		{5DE6E08C-9C32-4029-A15A-B042ACB8449D}.Release|x86.Deploy.0 = Release|x86
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|x64.ActiveCfg = Release|Any CPU
+		{DFD0DB77-DBC7-4B79-8747-F9CAF6274DBE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
